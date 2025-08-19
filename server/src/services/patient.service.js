@@ -21,6 +21,56 @@ const patientService = {
     await user.save();
     return patient;
   },
+  getAllPatients: async (
+    page = 1,
+    limit = 10,
+    query = "",
+    gender = "",
+    bloodGroup = "",
+    next
+  ) => {
+    const bloodGroupQuery = bloodGroup.replace(/[^\w+-]/gi, "");
+    const sanitizeQuery = query
+      ? query.toLowerCase().replace(/[^\w\s]/gi, "")
+      : "";
+    const [patients, total] =
+      sanitizeQuery || gender || bloodGroupQuery
+        ? await Promise.all([
+            Patient.find({
+              $or: [{ fullname: { $regex: sanitizeQuery, $options: "i" } }],
+              ...(gender && { gender: gender.toLowerCase() }),
+              ...(bloodGroupQuery && { bloodGroup: bloodGroupQuery }),
+            })
+              .sort({ createdAt: -1 })
+              .skip((page - 1) * limit)
+              .limit(limit),
+            Patient.countDocuments({
+              $or: [{ fullname: { $regex: sanitizeQuery, $options: "i" } }],
+              ...(gender && { gender: gender.toLowerCase() }),
+              ...(bloodGroupQuery && { bloodGroup: bloodGroupQuery }),
+            }),
+          ])
+        : await Promise.all([
+            Patient.find()
+              .sort({ createdAt: -1 })
+              .skip((page - 1) * limit)
+              .limit(limit),
+            Patient.countDocuments(),
+          ]);
+    if (!patients) {
+      return next(notFoundResponse("No patients found"));
+    }
+    return {
+      meta: {
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        total,
+        hasMore: (page - 1) * limit + patients.length < total,
+        limit,
+      },
+      patients,
+    };
+  },
 };
 
 export default patientService;

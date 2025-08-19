@@ -4,6 +4,10 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 import mailService from "./email.service.js";
 import responseHandler from "../utils/responseHandler.js";
+import {
+  deleteFromCloudinary,
+  uploadToCloudinary,
+} from "../utils/cloudinary.js";
 const { errorResponse, notFoundResponse } = responseHandler;
 
 const userService = {
@@ -65,17 +69,6 @@ const userService = {
     }
     return user;
   },
-  // logoutUser: async (req, res, next) => {
-  //   //reset the cookie maxAge value
-  //   res.cookie("userRefreshToken", "", {
-  //     maxAge: 0,
-  //     httpOnly: true,
-  //     secure: process.env.NODE_ENV === "production",
-  //     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-  //     path: "/",
-  //   });
-  //   return true;
-  // },
   //get a new accessToken when current one expires
   refreshAccessToken: async (refreshToken, next) => {
     if (!refreshToken) {
@@ -221,6 +214,33 @@ const userService = {
       path: "/api/v1/auth/refresh-token",
     });
     return true;
+  },
+  uploadAvatar: async (userId, avatar, next) => {
+    const user = await User.findById(userId);
+    if (!user) {
+      return next(notFoundResponse("No user found with that email"));
+    }
+    if (!avatar) {
+      return next(errorResponse("No file uploaded", 400));
+    }
+    //check if user has avatar already
+    const currentAvatar = user.avatar;
+    const currentAvatarId = user.avatarId;
+    if (currentAvatar) {
+      //if avatar exists, delete and replace with new avatar
+      await deleteFromCloudinary(currentAvatarId);
+    }
+    const { url, public_id } = await uploadToCloudinary(avatar, {
+      folder: "Clinicare/avatars",
+      width: 200,
+      height: 200,
+      crop: "fit",
+      format: "webp",
+    });
+    user.avatar = url || user.avatar;
+    user.avatarId = public_id || user.avatarId;
+    await user.save();
+    return user;
   },
 };
 

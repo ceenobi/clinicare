@@ -30,12 +30,6 @@ export const authenticateUser = tryCatchFn(async (req, res, next) => {
   return successResponse(res, user, "User authenticated", 200);
 });
 
-// export const logoutUser = tryCatchFn(async (req, res, next) => {
-//   const user = await userService.logoutUser(req, res, next);
-//   if (!user) return;
-//   return successResponse(res, user, "Logged out sucessfully", 200);
-// });
-
 export const refreshAccessToken = tryCatchFn(async (req, res, next) => {
   //get the refreshtoken from the cookie
   const refreshToken = req.cookies?.userRefreshToken;
@@ -54,7 +48,6 @@ export const refreshAccessToken = tryCatchFn(async (req, res, next) => {
 
 export const verifyUserAccount = tryCatchFn(async (req, res, next) => {
   const { id: userId } = req.user;
-  console.log("ll", req.body);
   const data = await userService.verifyUserAccount(
     { userId, ...req.body },
     next
@@ -101,4 +94,11 @@ export const logout = tryCatchFn(async (req, res, next) => {
   const responseData = await userService.logout(req, res, next);
   if (!responseData) return;
   return successResponse(res, responseData, "Logged out successfully", 200);
+});
+
+export const uploadAvatar = tryCatchFn(async (req, res, next) => {
+  const { id: userId } = req.user;
+  console.log("ee", req.body);
+  const user = await userService.uploadAvatar(userId, req.body.avatar, next);
+  return successResponse(res, user, "Image uploaded successfully", 200);
 });

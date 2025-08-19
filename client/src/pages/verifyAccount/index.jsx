@@ -124,9 +124,9 @@ export default function VerifyAccount() {
             <button
               className="btn my-4 bg-blue-500 hover:bg-blue-600 text-white cursor-pointer"
               size="lg"
-              onClick={() => navigate("/", { replace: true })}
+              onClick={() => navigate("/patients-onboard", { replace: true })}
             >
-              Go back to home
+              Continue
             </button>
           </div>
         </>

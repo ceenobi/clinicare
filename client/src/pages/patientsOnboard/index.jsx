@@ -18,7 +18,10 @@ export default function PatientsOnboard() {
     description: "Complete your patient profile.",
     keywords: "Clinicare, patients, account",
   });
-  const [currentStep, setCurrentStep] = useState(1);
+  const { user, accessToken } = useAuth();
+  const [currentStep, setCurrentStep] = useState(
+    user?.isCompletedOnboard ? 3 : 1
+  );
   const [field, setField] = useState(false);
   const [error, setError] = useState(null);
   const {
@@ -30,7 +33,6 @@ export default function PatientsOnboard() {
   } = useForm({
     resolver: zodResolver(validatePatientSchema),
   });
-  const { user, accessToken } = useAuth();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const gender = ["male", "female", "other"];
@@ -45,6 +47,15 @@ export default function PatientsOnboard() {
       setValue("email", user.email);
       setValue("phone", user.phone || "");
       setValue("dateOfBirth", formatDate(user.dateOfBirth || "", "input"));
+      setValue("gender", user.gender);
+      setValue("bloodGroup", user.bloodGroup);
+      setValue("address", user.address);
+      setValue("emergencyContact", user.emergencyContact);
+      setValue("emergencyContactPhone", user.emergencyContactPhone);
+      setValue(
+        "emergencyContactRelationship",
+        user.emergencyContactRelationship
+      );
     }
   }, [user, setValue]);
 
@@ -75,10 +86,11 @@ export default function PatientsOnboard() {
   const mutation = useMutation({
     mutationFn: registerPatient,
     onSuccess: (response) => {
-      console.log(response);
-      toast.success(response?.data?.message || "Onboarding completed");
-      queryClient.invalidateQueries({ queryKey: ["auth_user"] });
-      setCurrentStep(3);
+      if (response.status === 201) {
+        toast.success(response?.data?.message);
+        //clear old user data
+        queryClient.invalidateQueries({ queryKey: ["auth_user"] });
+      }
     },
     onError: (error) => {
       console.log(error);
@@ -87,6 +99,14 @@ export default function PatientsOnboard() {
       );
     },
   });
+
+  // const handleStep = (direction) => {
+  //   if (direction === "next" && currentStep < 3) {
+  //     setCurrentStep(currentStep + 1);
+  //   } else if (direction === "prev" && currentStep > 1) {
+  //     setCurrentStep(currentStep - 1);
+  //   }
+  // };
 
   const handleStep = () => {
     if (currentStep === 1) {
@@ -97,7 +117,7 @@ export default function PatientsOnboard() {
   };
 
   const onSubmit = async (formData) => {
-    mutation.mutate({ formData, accessToken });
+ mutation.mutate({ formData, accessToken });
   };
 
   return (
@@ -108,7 +128,10 @@ export default function PatientsOnboard() {
         className="my-4 w-full max-w-[600px] mx-auto bg-white p-4 rounded-xl shadow"
       >
         <p className="text-muted-foreground text-center font-medium mb-2">
-          Hello <b>{user?.fullname}</b>, please complete your patient profile
+          Hello <b>{user?.fullname}</b>,{" "}
+          {user?.isCompletedOnboard
+            ? "Onboarding completed"
+            : "please complete your patient profile"}
         </p>
         {error && <ErrorAlert error={error} />}
         <ul className="steps flex justify-center my-2">
@@ -280,26 +303,29 @@ export default function PatientsOnboard() {
               </div>
             </>
           )}
+
           {currentStep === 3 && (
-            <div className="p-4 text-center">
-              <img src="/Success.svg" alt="success" className="w-full h-full" />
+            <div className="md:col-span-12 p-4 text-center">
+              <img
+                src="/Success.svg"
+                alt="success"
+                className="w-full h-[200px]"
+              />
               <h1 className="text-2xl font-bold">Congratulations!</h1>
               <p className="text-gray-600">
-                {user?.isCompletedOnboard
-                  ? "Your account has already been verified."
-                  : "Your account has been verified successfully."}
+                "Your account has been verified successfully."
               </p>
               <button
                 className="btn my-4 bg-blue-500 hover:bg-blue-600 text-white cursor-pointer"
                 size="lg"
-                onClick={() => navigate("/", { replace: true })}
+                onClick={() => navigate("/dashboard", { replace: true })}
               >
-                Go back to home
+                Continue to dashboard
               </button>
             </div>
           )}
         </div>
-        <div className="mt-6 flex gap-4 justify-end">
+        <div className="flex gap-4 justify-end">
           {currentStep === 1 && (
             <button
               className="btn bg-zinc-800 font-bold text-white w-[140px] cursor-pointer"

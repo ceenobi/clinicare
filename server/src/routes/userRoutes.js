@@ -9,6 +9,7 @@ import {
   forgotPassword,
   resetPassword,
   logout,
+  uploadAvatar,
 } from "../controllers/userController.js";
 import { validateFormData } from "../middlewares/validateForm.js";
 import {
@@ -73,5 +74,11 @@ router.patch(
 );
 
 router.post("/logout", verifyAuth, clearCache("auth_user"), logout);
+router.patch(
+  "/upload-avatar",
+  verifyAuth,
+  clearCache("auth_user"),
+  uploadAvatar
+);
 
 export default router;

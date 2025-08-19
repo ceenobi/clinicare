@@ -9,14 +9,6 @@ export default function OnboardLayout() {
       <div className="flex justify-between items-center">
         <Logo />
         <Logout />
-        {/* <form action="/logout" method="post">
-          <button
-            type="submit"
-            className="btn bg-red-500 hover:bg-red-600 text-white w-fit"
-          >
-            Logout
-          </button>
-        </form> */}
       </div>
       <Outlet />
       <div className="flex justify-center md:justify-start items-center text-gray-600">

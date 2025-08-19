@@ -213,3 +213,22 @@ export const formatDate = (item, format = "display") => {
   }
   return dayjs(item).format("DD/MM/YYYY");
 };
+
+
+export const settingsLink = [
+  {
+    id: "account",
+    href: "/dashboard/settings/account",
+    name: "Account",
+  },
+  {
+    id: "password",
+    href: "/dashboard/settings/password",
+    name: "Password",
+  },
+  {
+    id: "health",
+    href: "/dashboard/settings/health",
+    name: "Health Record",
+  },
+];

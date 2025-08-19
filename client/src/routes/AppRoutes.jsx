@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { lazy, Suspense } from "react";
 import { LazyLoader } from "@/components/LazyLoader";
-import { PublicRoutes, PrivateRoutes } from "./ProtectedRoutes";
+import { PublicRoutes, PrivateRoutes, VerifiedRoutes } from "./ProtectedRoutes";
 import { useAuth } from "@/store";
 
 //render pages
@@ -17,7 +17,9 @@ const VerifyAccount = lazy(() => import("@/pages/verifyAccount"));
 const PatientOnboard = lazy(() => import("@/pages/patientsOnboard"));
 const ForgotPassword = lazy(() => import("@/pages/account/forgotPassword"));
 const ResetPassword = lazy(() => import("@/pages/account/resetPassword"));
+const Patients = lazy(() => import("@/pages/dashboard/patients"));
 const Settings = lazy(() => import("@/pages/dashboard/settings"));
+const Account = lazy(() => import("@/pages/dashboard/settings/account"));
 
 export default function AppRoutes() {
   const { accessToken, user } = useAuth();
@@ -95,9 +97,11 @@ export default function AppRoutes() {
     },
     {
       element: (
-        <PrivateRoutes accessToken={accessToken} user={user}>
-          <OnboardLayout />
-        </PrivateRoutes>
+        <Suspense fallback={<LazyLoader />}>
+          <VerifiedRoutes accessToken={accessToken} user={user}>
+            <OnboardLayout />
+          </VerifiedRoutes>
+        </Suspense>
       ),
       children: [
         {
@@ -133,6 +137,24 @@ export default function AppRoutes() {
           element: (
             <Suspense fallback={<LazyLoader />}>
               <Settings />
+            </Suspense>
+          ),
+          children: [
+            {
+              path: "account",
+              element: (
+                <Suspense fallback={<LazyLoader />}>
+                  <Account />
+                </Suspense>
+              ),
+            },
+          ],
+        },
+        {
+          path: "patients",
+          element: (
+            <Suspense fallback={<LazyLoader />}>
+              <Patients />
             </Suspense>
           ),
         },

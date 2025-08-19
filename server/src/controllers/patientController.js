@@ -9,3 +9,21 @@ export const register = tryCatchFn(async (req, res, next) => {
   if (!responseData) return;
   return successResponse(res, responseData, "Onboarding completed", 201);
 });
+
+export const getAllPatients = tryCatchFn(async (req, res, next) => {
+  const { page, limit, query, gender, bloodGroup } = req.query;
+  const responseData = await patientService.getAllPatients(
+    parseInt(page),
+    parseInt(limit),
+    query,
+    gender,
+    bloodGroup,
+    next
+  );
+  return successResponse(
+    res,
+    responseData,
+    "Patients data fetched successfully",
+    200
+  );
+});

@@ -38,7 +38,7 @@ export default function Logout() {
       <button
         className={`${
           location.pathname === "/verify-account"
-            ? "btn btn-lg bg-red-500 hover:bg-red-600 text-white"
+            ? "btn bg-red-500 hover:bg-red-600 text-white"
             : ""
         } p-4 flex gap-2 items-center text-base cursor-pointer text-red-500`}
         onClick={() => setIsOpen(true)}

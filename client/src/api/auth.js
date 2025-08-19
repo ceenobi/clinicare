@@ -50,3 +50,11 @@ export const logout = async (accessToken) => {
     withCredentials: true,
   });
 };
+
+export const uploadAvatar = async ({ formData, accessToken }) => {
+  return await axiosInstance.patch(
+    "/auth/upload-avatar",
+    formData,
+    headers(accessToken)
+  );
+};
