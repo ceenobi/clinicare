@@ -10,6 +10,7 @@ import {
   resetPassword,
   logout,
   uploadAvatar,
+  updateUserPassword,
 } from "../controllers/userController.js";
 import { validateFormData } from "../middlewares/validateForm.js";
 import {
@@ -18,6 +19,7 @@ import {
   validateAccountSchema,
   forgotPasswordSchema,
   validateResetPasswordSchema,
+  updatePasswordSchema,
 } from "../utils/dataSchema.js";
 import { verifyAuth } from "../middlewares/authenticate.js";
 import { rateLimiter, refreshTokenLimit } from "../middlewares/rateLimit.js";
@@ -79,6 +81,15 @@ router.patch(
   verifyAuth,
   clearCache("auth_user"),
   uploadAvatar
+);
+
+router.patch(
+  "/update-password",
+  rateLimiter,
+  verifyAuth,
+  validateFormData(updatePasswordSchema),
+  clearCache("auth_user"),
+  updateUserPassword
 );
 
 export default router;

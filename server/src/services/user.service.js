@@ -242,6 +242,35 @@ const userService = {
     await user.save();
     return user;
   },
+  updateUserPassword: async (userId, userData, next) => {
+    const user = await User.findById(userId).select("+password");
+    if (!user) {
+      return next(notFoundResponse("No user found with that email"));
+    }
+    const { password, newPassword, confirmPassword } = userData;
+    const [checkPassword, isPasswordSame] = await Promise.all([
+      bcrypt.compare(password, user.password),
+      bcrypt.compare(newPassword, user.password),
+    ]);
+    if (!checkPassword) {
+      return next(errorResponse("Incorrect current password", 400));
+    }
+    if (newPassword !== confirmPassword) {
+      return next(
+        errorResponse("New password and confirm password does not match", 400)
+      );
+    }
+    if (isPasswordSame) {
+      return next(
+        errorResponse("New password must be different from old password", 400)
+      );
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    user.password = hashedPassword;
+    const updatedUser = await user.save();
+    return updatedUser;
+  },
 };
 
 export default userService;

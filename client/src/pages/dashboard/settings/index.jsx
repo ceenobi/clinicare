@@ -37,6 +37,7 @@ export default function Settings() {
           <button
             type="submit"
             className="bg-blue-500 text-white font-bold border border-gray-300 p-2 rounded-md cursor-pointer w-[140px]"
+            form={location.pathname}
           >
             Save
           </button>

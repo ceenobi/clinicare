@@ -112,3 +112,48 @@ export const validateResetPasswordSchema = z.object({
       message: "Password must contain at least one special character",
     }),
 });
+
+export const updatePasswordSchema = z.object({
+  password: z
+    .string()
+    .min(8, {
+      message: "Password must be at least 8 characters long",
+    })
+    .regex(/[A-Z]/, {
+      message: "Password must contain at least one uppercase letter",
+    })
+    .regex(/[a-z]/, {
+      message: "Password must contain at least one lowercase letter",
+    })
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+      message: "Password must contain at least one special character",
+    }),
+  newPassword: z
+    .string()
+    .min(8, {
+      message: "New Password must be at least 8 characters long",
+    })
+    .regex(/[A-Z]/, {
+      message: "New Password must contain at least one uppercase letter",
+    })
+    .regex(/[a-z]/, {
+      message: "New Password must contain at least one lowercase letter",
+    })
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+      message: "New Password must contain at least one special character",
+    }),
+  confirmPassword: z
+    .string()
+    .min(8, {
+      message: "Confirm Password must be at least 8 characters long",
+    })
+    .regex(/[A-Z]/, {
+      message: "Confirm Password must contain at least one uppercase letter",
+    })
+    .regex(/[a-z]/, {
+      message: "Confirm Password must contain at least one lowercase letter",
+    })
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+      message: "Confirm Password must contain at least one special character",
+    }),
+});

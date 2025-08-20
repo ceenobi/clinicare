@@ -20,6 +20,7 @@ const ResetPassword = lazy(() => import("@/pages/account/resetPassword"));
 const Patients = lazy(() => import("@/pages/dashboard/patients"));
 const Settings = lazy(() => import("@/pages/dashboard/settings"));
 const Account = lazy(() => import("@/pages/dashboard/settings/account"));
+const Password = lazy(() => import("@/pages/dashboard/settings/password"));
 
 export default function AppRoutes() {
   const { accessToken, user } = useAuth();
@@ -145,6 +146,14 @@ export default function AppRoutes() {
               element: (
                 <Suspense fallback={<LazyLoader />}>
                   <Account />
+                </Suspense>
+              ),
+            },
+            {
+              path: "password",
+              element: (
+                <Suspense fallback={<LazyLoader />}>
+                  <Password />
                 </Suspense>
               ),
             },

@@ -23,7 +23,7 @@ export default function UploadImage() {
       }
     },
     onError: (error) => {
-      console.log("lle", error);
+      console.log(error);
       setError(error?.response?.data?.message || "Error uploading image");
     },
   });

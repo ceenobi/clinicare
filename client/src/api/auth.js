@@ -58,3 +58,11 @@ export const uploadAvatar = async ({ formData, accessToken }) => {
     headers(accessToken)
   );
 };
+
+export const updateUserPassword = async ({ userData, accessToken }) => {
+  return await axiosInstance.patch(
+    "/auth/update-password",
+    userData,
+    headers(accessToken)
+  );
+};
