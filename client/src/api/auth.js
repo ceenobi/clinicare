@@ -66,3 +66,58 @@ export const updateUserPassword = async ({ userData, accessToken }) => {
     headers(accessToken)
   );
 };
+
+export const updateUserProfile = async ({ userData, accessToken }) => {
+  return await axiosInstance.patch(
+    "/auth/update-user",
+    userData,
+    headers(accessToken)
+  );
+};
+
+export const deleteAccount = async (accessToken) => {
+  return await axiosInstance.delete(
+    "/auth/delete-account",
+    headers(accessToken)
+  );
+};
+
+export const getAllUsers = async (searchParams, accessToken) => {
+  const page = Number(searchParams.get("page")) || 1;
+  const limit = Number(searchParams.get("limit")) || 10;
+  const query = searchParams.get("query") || "";
+  const role = searchParams.get("role") || "";
+  const params = new URLSearchParams();
+  params.append("page", page);
+  params.append("limit", limit);
+  if (query) params.append("query", query);
+  if (role) params.append("role", role);
+  return await axiosInstance.get(
+    `/auth/all?${params.toString()}`,
+    headers(accessToken)
+  );
+};
+
+export const deleteAccountAdmins = async ({ userId, accessToken }) => {
+  return await axiosInstance.delete(
+    `/auth/${userId}/delete-account`,
+    headers(accessToken)
+  );
+};
+
+export const updateUserRole = async ({ userId, role, accessToken }) => {
+  const response = await axiosInstance.patch(
+    `/auth/${userId}/update`,
+    role,
+    headers(accessToken)
+  );
+  return response.data;
+};
+
+export const createUserAdmins = async ({ userData, accessToken }) => {
+  return await axiosInstance.post(
+    "/auth/create-user",
+    userData,
+    headers(accessToken)
+  );
+};

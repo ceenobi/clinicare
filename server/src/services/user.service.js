@@ -2,6 +2,9 @@ import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
+import Patient from "../models/patient.js";
+import Inpatient from "../models/inpatient.js";
+import Doctor from "../models/doctor.js";
 import mailService from "./email.service.js";
 import responseHandler from "../utils/responseHandler.js";
 import {
@@ -270,6 +273,151 @@ const userService = {
     user.password = hashedPassword;
     const updatedUser = await user.save();
     return updatedUser;
+  },
+  updateUser: async (userId, userData, next) => {
+    const user = await User.findById(userId);
+    if (!user) {
+      return next(notFoundResponse("No user found with that email"));
+    }
+    if (userData.phone) {
+      const phoneExists = await User.findOne({ phone: userData.phone });
+      if (phoneExists) {
+        return next(errorResponse("User with phone already exists", 400));
+      }
+    }
+    for (const [key, value] of Object.entries(userData)) {
+      if (value) {
+        user[key] = value;
+      }
+    }
+    const updatedUser = await user.save();
+    return updatedUser;
+  },
+  deleteAccount: async (userId, next) => {
+    const user = await User.findById(userId);
+    if (!user) {
+      return next(notFoundResponse("Account not found"));
+    }
+    if (user.avatarId) {
+      await deleteFromCloudinary(user.avatarId);
+    }
+    await user.deleteOne();
+    return true;
+  },
+  getAllUsers: async (page = 1, limit = 3, query = "", role = "", next) => {
+    const sanitizeQuery =
+      query || role
+        ? (query || role).toLowerCase().replace(/[^\w\s]/gi, "")
+        : "";
+    const [users, total] = sanitizeQuery
+      ? await Promise.all([
+          User.find({
+            $or: [
+              { fullname: { $regex: sanitizeQuery, $options: "i" } },
+              { role: { $regex: sanitizeQuery, $options: "i" } },
+            ],
+          })
+            .sort({ createdAt: -1 })
+            .skip((page - 1) * limit)
+            .limit(limit),
+          User.countDocuments({
+            $or: [
+              { fullname: { $regex: sanitizeQuery, $options: "i" } },
+              { role: { $regex: sanitizeQuery, $options: "i" } },
+            ],
+          }),
+        ])
+      : await Promise.all([
+          User.find()
+            .sort({ createdAt: -1 })
+            .skip((page - 1) * limit)
+            .limit(limit),
+          User.countDocuments(),
+        ]);
+    if (!users) {
+      return next(notFoundResponse("No users found"));
+    }
+    return {
+      meta: {
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        total,
+        hasMore: (page - 1) * limit + users.length < total,
+        limit,
+      },
+      users,
+    };
+  },
+  deleteAccountAdmins: async (userId, next) => {
+    const user = await User.findById(userId);
+    if (!user) {
+      return next(notFoundResponse("Account not found"));
+    }
+    if (user.avatarId) {
+      await deleteFromCloudinary(user.avatarId);
+    }
+    if (user.role === "patient") {
+      const patient = await Patient.findOne({ userId });
+      const inpatient = await Inpatient.findOne({ patientId: patient });
+      if (inpatient) {
+        await inpatient.deleteOne();
+      }
+      await Patient.findOneAndDelete({ userId });
+    }
+    if (user.role === "doctor") {
+      await Doctor.findOneAndDelete({ userId });
+    }
+    await user.deleteOne();
+    return true;
+  },
+  updateUserRole: async (userId, userData, next) => {
+    const user = await User.findById(userId);
+    if (!user) {
+      return next(notFoundResponse("No user found"));
+    }
+    if (user.role === "patient") {
+      return next(errorResponse("Patient role cannot be updated"));
+    }
+    if (user.role === "admin" && userData.role !== "admin") {
+      return next(errorResponse("Admin cannot update or downgrade an admin"));
+    }
+    for (const [key, value] of Object.entries(userData)) {
+      if (value) {
+        user[key] = value;
+      }
+    }
+    const updatedUser = await user.save();
+    return updatedUser;
+  },
+  createUserAdmins: async (userData, next) => {
+    const emailExists = await User.findOne({ email: userData.email });
+    if (emailExists) {
+      return next(errorResponse("Email already exists", 400));
+    }
+    const verificationCode = crypto.randomInt(100000, 999999).toString();
+    const verificationCodeExpiry = new Date(Date.now() + 3600000);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPass = await bcrypt.hash(userData.password, salt);
+    const user = await User.create({
+      ...userData,
+      password: hashedPass,
+      verificationToken: verificationCode,
+      verificationTokenExpiry: verificationCodeExpiry,
+    });
+    process.nextTick(() => {
+      mailService.sendWelcomeMail(user, userData.password).catch(console.error);
+    });
+    if (user.role === "doctor") {
+      await Doctor.create({
+        userId: user._id,
+        availability: userData.availability,
+        specialization: userData.specialization,
+      });
+    }
+    if (!user) {
+      return next(errorResponse("User registration failed"));
+    }
+    return user;
   },
 };
 

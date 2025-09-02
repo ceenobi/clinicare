@@ -3,12 +3,11 @@ export default function Paginate({
   hasMore,
   handlePageChange,
   currentPage,
-  limit,
 }) {
   return (
     <div className="flex justify-center md:justify-between items-center py-4">
       <p className="hidden md:block">
-        Showing {currentPage}-{limit} of Page {totalPages}
+        Showing page {currentPage} of {totalPages} pages
       </p>
       <div className="join bg-white border border-slate-200 rounded-lg">
         <button

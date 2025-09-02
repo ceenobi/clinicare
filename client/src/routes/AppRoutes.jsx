@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import { LazyLoader } from "@/components/LazyLoader";
 import { PublicRoutes, PrivateRoutes, VerifiedRoutes } from "./ProtectedRoutes";
 import { useAuth } from "@/store";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 //render pages
 const RootLayout = lazy(() => import("@/layouts/RootLayout"));
@@ -21,6 +22,20 @@ const Patients = lazy(() => import("@/pages/dashboard/patients"));
 const Settings = lazy(() => import("@/pages/dashboard/settings"));
 const Account = lazy(() => import("@/pages/dashboard/settings/account"));
 const Password = lazy(() => import("@/pages/dashboard/settings/password"));
+const Health = lazy(() => import("@/pages/dashboard/settings/health"));
+const Users = lazy(() => import("@/pages/dashboard/users"));
+const Doctors = lazy(() => import("@/pages/dashboard/doctors"));
+const Rooms = lazy(() => import("@/pages/dashboard/rooms"));
+const PatientsAppointment = lazy(() =>
+  import("@/pages/dashboard/appointments/Patients")
+);
+const Appointments = lazy(() => import("@/pages/dashboard/appointments"));
+const Payments = lazy(() => import("@/pages/dashboard/payments"));
+const PatientPayments = lazy(() =>
+  import("@/pages/dashboard/payments/PatientPayments")
+);
+const Inpatients = lazy(() => import("@/pages/dashboard/inpatients"));
+const Dashboard = lazy(() => import("@/pages/dashboard"));
 
 export default function AppRoutes() {
   const { accessToken, user } = useAuth();
@@ -33,6 +48,7 @@ export default function AppRoutes() {
           </PublicRoutes>
         </Suspense>
       ),
+      errorElement: <ErrorBoundary />,
       children: [
         {
           index: true,
@@ -61,6 +77,7 @@ export default function AppRoutes() {
           </PublicRoutes>
         </Suspense>
       ),
+      errorElement: <ErrorBoundary />,
       children: [
         {
           path: "signin",
@@ -104,6 +121,7 @@ export default function AppRoutes() {
           </VerifiedRoutes>
         </Suspense>
       ),
+      errorElement: <ErrorBoundary />,
       children: [
         {
           path: "verify-account",
@@ -132,7 +150,16 @@ export default function AppRoutes() {
           </PrivateRoutes>
         </Suspense>
       ),
+      errorElement: <ErrorBoundary />,
       children: [
+        {
+          index: true,
+          element: (
+            <Suspense fallback={<LazyLoader />}>
+              <Dashboard />
+            </Suspense>
+          ),
+        },
         {
           path: "settings",
           element: (
@@ -157,6 +184,14 @@ export default function AppRoutes() {
                 </Suspense>
               ),
             },
+            {
+              path: "health",
+              element: (
+                <Suspense fallback={<LazyLoader />}>
+                  <Health />
+                </Suspense>
+              ),
+            },
           ],
         },
         {
@@ -164,6 +199,70 @@ export default function AppRoutes() {
           element: (
             <Suspense fallback={<LazyLoader />}>
               <Patients />
+            </Suspense>
+          ),
+        },
+        {
+          path: "users",
+          element: (
+            <Suspense fallback={<LazyLoader />}>
+              <Users />
+            </Suspense>
+          ),
+        },
+        {
+          path: "doctors",
+          element: (
+            <Suspense fallback={<LazyLoader />}>
+              <Doctors />
+            </Suspense>
+          ),
+        },
+        {
+          path: "rooms",
+          element: (
+            <Suspense fallback={<LazyLoader />}>
+              <Rooms />
+            </Suspense>
+          ),
+        },
+        {
+          path: "patient-appointments",
+          element: (
+            <Suspense fallback={<LazyLoader />}>
+              <PatientsAppointment />
+            </Suspense>
+          ),
+        },
+        {
+          path: "appointments",
+          element: (
+            <Suspense fallback={<LazyLoader />}>
+              <Appointments />
+            </Suspense>
+          ),
+        },
+        {
+          path: "payments",
+          element: (
+            <Suspense fallback={<LazyLoader />}>
+              <Payments />
+            </Suspense>
+          ),
+        },
+        {
+          path: "patient-payments",
+          element: (
+            <Suspense fallback={<LazyLoader />}>
+              <PatientPayments />
+            </Suspense>
+          ),
+        },
+        {
+          path: "inpatients",
+          element: (
+            <Suspense fallback={<LazyLoader />}>
+              <Inpatients />
             </Suspense>
           ),
         },

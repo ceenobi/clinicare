@@ -15,9 +15,26 @@ export const getAllPatients = async (searchParams, accessToken) => {
   const query = searchParams.get("query") || "";
   const gender = searchParams.get("gender") || "";
   const bloodGroup = searchParams.get("bloodGroup") || "";
-  const response = await axiosInstance.get(
-    `/patients/all?page=${page}&limit=${limit}&query=${query}&gender=${gender}&bloodGroup=${bloodGroup}`,
+  const params = new URLSearchParams();
+  params.append("page", page);
+  params.append("limit", limit);
+  if (query) params.append("query", query);
+  if (gender) params.append("gender", gender);
+  if (bloodGroup) params.append("bloodGroup", bloodGroup);
+  return await axiosInstance.get(
+    `/patients/all?${params.toString()}`,
     headers(accessToken)
   );
-  return response.data;
+};
+
+export const getPatient = async (accessToken) => {
+  return await axiosInstance.get("/patients/me", headers(accessToken));
+};
+
+export const updatePatient = async ({ patientId, formData, accessToken }) => {
+  return await axiosInstance.patch(
+    `/patients/${patientId}/update`,
+    formData,
+    headers(accessToken)
+  );
 };

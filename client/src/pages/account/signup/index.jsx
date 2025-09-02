@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { RiUser4Fill } from "@remixicon/react";
 import { validateSignUpSchema } from "@/utils/dataSchema";
 import FormField from "@/components/FormField";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { registerUser } from "@/api/auth";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -28,7 +28,8 @@ export default function Signup() {
   } = useForm({
     resolver: zodResolver(validateSignUpSchema),
   });
-  const { setAccessToken } = useAuth();
+  const { setAccessToken, user } = useAuth();
+  const navigate = useNavigate();
   const mutation = useMutation({
     mutationFn: registerUser,
     onSuccess: (response) => {
@@ -36,9 +37,12 @@ export default function Signup() {
       toast.success(response?.data?.message || "Registration successful");
       //save accessToken
       setAccessToken(response?.data?.data?.accessToken);
+      if (!user?.isVerified) {
+        navigate("/verify-account");
+      }
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
       setError(error?.response?.data?.message || "Registration failed");
     },
   });

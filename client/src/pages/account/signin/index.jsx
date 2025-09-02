@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { RiUser4Fill } from "@remixicon/react";
 import { validateSignInSchema } from "@/utils/dataSchema";
 import FormField from "@/components/FormField";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { loginUser } from "@/api/auth";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -28,12 +28,16 @@ export default function Signin() {
   } = useForm({
     resolver: zodResolver(validateSignInSchema),
   });
-  const { setAccessToken } = useAuth();
+  const { setAccessToken, user } = useAuth();
+  const navigate = useNavigate();
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (response) => {
       toast.success(response?.data?.message || "Login successful");
       setAccessToken(response?.data?.data?.accessToken);
+      if (!user?.isVerified) {
+        navigate("/verify-account");
+      }
     },
     onError: (error) => {
       console.log(error);

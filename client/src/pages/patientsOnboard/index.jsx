@@ -73,6 +73,7 @@ export default function PatientsOnboard() {
     []
   );
   const formValues = watch();
+  
   useEffect(() => {
     const currentRequiredFields =
       currentStep === 1 ? requiredFields1 : requiredFields2;
@@ -99,14 +100,6 @@ export default function PatientsOnboard() {
       );
     },
   });
-
-  // const handleStep = (direction) => {
-  //   if (direction === "next" && currentStep < 3) {
-  //     setCurrentStep(currentStep + 1);
-  //   } else if (direction === "prev" && currentStep > 1) {
-  //     setCurrentStep(currentStep - 1);
-  //   }
-  // };
 
   const handleStep = () => {
     if (currentStep === 1) {

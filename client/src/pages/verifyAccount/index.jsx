@@ -108,6 +108,13 @@ export default function VerifyAccount() {
     sendResendToken.mutate(accessToken);
   };
 
+  const redirect = () => {
+    if (user?.role === "patient") {
+      navigate("/patients-onboard");
+    }
+    navigate("/dashboard");
+  };
+
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-6rem)] gap-2">
       {success || user?.isVerified ? (
@@ -117,14 +124,12 @@ export default function VerifyAccount() {
             <img src="/Success.svg" alt="success" className="w-full h-full" />
             <h1 className="text-2xl font-bold">Congratulations!</h1>
             <p className="text-gray-600">
-              {user?.isVerified
-                ? "Your account has already been verified."
-                : "Your account has been verified successfully."}
+              Your account has been verified successfully
             </p>
             <button
               className="btn my-4 bg-blue-500 hover:bg-blue-600 text-white cursor-pointer"
               size="lg"
-              onClick={() => navigate("/patients-onboard", { replace: true })}
+              onClick={redirect}
             >
               Continue
             </button>

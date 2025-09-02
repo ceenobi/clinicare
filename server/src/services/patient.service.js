@@ -9,6 +9,10 @@ const patientService = {
     if (patientExists) {
       return next(errorResponse("Patient already exists", 400));
     }
+    const patientPhone = await Patient.findOne({ phone: patientData.phone });
+    if (patientPhone) {
+      return next(errorResponse("Phone already exists", 400));
+    }
     const patient = await Patient.create({
       userId,
       ...patientData,
@@ -34,7 +38,7 @@ const patientService = {
       ? query.toLowerCase().replace(/[^\w\s]/gi, "")
       : "";
     const [patients, total] =
-      sanitizeQuery || gender || bloodGroupQuery
+      sanitizeQuery || gender || bloodGroup
         ? await Promise.all([
             Patient.find({
               $or: [{ fullname: { $regex: sanitizeQuery, $options: "i" } }],
@@ -70,6 +74,26 @@ const patientService = {
       },
       patients,
     };
+  },
+  getPatient: async (userId, next) => {
+    const patient = await Patient.findOne({ userId: userId.toString() });
+    if (!patient) {
+      return next(notFoundResponse("No patient found"));
+    }
+    return patient;
+  },
+  updatePatient: async (patientId, patientData, next) => {
+    const patient = await Patient.findById(patientId);
+    if (!patient) {
+      return next(notFoundResponse("No patient found"));
+    }
+    for (const [key, value] of Object.entries(patientData)) {
+      if (value) {
+        patient[key] = value;
+      }
+    }
+    const updatedPatient = await patient.save();
+    return updatedPatient;
   },
 };
 

@@ -18,21 +18,20 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
-      select: false, //prevent password field from being sent to client
+      select: false,
     },
     dateOfBirth: {
       type: Date,
     },
     phone: {
       type: String,
-      maxlength: [14, "Phone number must not exceed 11 digits"],
     },
     avatar: {
       type: String,
       default: "",
     },
     avatarId: {
-      type: String, //field is to track the id attached to our avatar url from cloudinary
+      type: String,
     },
     role: {
       type: String,
@@ -68,9 +67,9 @@ const userSchema = new Schema(
     },
   },
   {
-    timestamps: true, //includes a createdAt and updatedAt when a doc is created
+    timestamps: true,
   }
 );
 
-const User = mongoose.models.User || model("User", userSchema); //this checks if a model named User already exists to prevent subsequent checks. if it does not exist then it creates it. it is useful when compiling your schema as you make changes
+const User = mongoose.models.User || model("User", userSchema);
 export default User;
