@@ -15,7 +15,7 @@ import useMetaArgs from "@/hooks/useMeta";
 const Table = lazy(() =>
   import("@/features/appointments/patients/PatientsTable")
 );
-//ll
+
 export default function PatientsAppointment() {
   useMetaArgs({
     title: "Appointments - Clinicare",

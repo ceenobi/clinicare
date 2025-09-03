@@ -59,23 +59,15 @@ export default function Patients() {
               <ErrorAlert error={error?.response?.data?.message} />
             ) : (
               <>
-                {patients?.length > 0 ? (
-                  <>
-                    <Suspense fallback={<SkeletonTable />}>
-                      <Table patients={patients} />
-                    </Suspense>
-                    <Paginate
-                      totalPages={totalPages}
-                      hasMore={hasMore}
-                      handlePageChange={handlePageChange}
-                      currentPage={currentPage}
-                    />
-                  </>
-                ) : (
-                  <p className="mt-10 font-semibold text-center">
-                    No patients found
-                  </p>
-                )}
+                <Suspense fallback={<SkeletonTable />}>
+                  <Table patients={patients} />
+                </Suspense>
+                <Paginate
+                  totalPages={totalPages}
+                  hasMore={hasMore}
+                  handlePageChange={handlePageChange}
+                  currentPage={currentPage}
+                />
               </>
             )}
           </>

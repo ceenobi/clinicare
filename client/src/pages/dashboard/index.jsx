@@ -73,7 +73,7 @@ export default function Dashboard() {
         <div className="mt-14 space-y-8">
           {user?.role !== "patient" && (
             <div className="grid grid-cols-12 gap-4">
-              <div className="col-span-12 md:col-span-6 bg-white p-4 rounded-lg">
+              <div className="col-span-12 md:col-span-6 bg-white p-4 rounded-lg shadow">
                 <h1 className="font-bold mb-4">Recent registered patients</h1>
                 {stats?.recentUsers?.map((user) => (
                   <div className="flex gap-2 mb-2 items-center" key={user._id}>
@@ -133,30 +133,22 @@ export default function Dashboard() {
               </div>
             </div>
           )}
-          <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-12 md:col-span-8">
-              <RecentAppointments
-                appointments={stats?.recentAppointments}
-                user={user}
-              />
-            </div>
-            <div className="col-span-12 md:col-span-4">
-              <ProgressCardAppointment
-                appointmentSummary={stats?.appointmentSummary}
-                user={user}
-              />
-            </div>
+          <div className="space-y-4">
+            <ProgressCardAppointment
+              appointmentSummary={stats?.appointmentSummary}
+              user={user}
+            />
+            <ProgressCardPayment
+              paymentSummary={stats?.paymentSummary}
+              user={user}
+            />
           </div>
-          <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-12 md:col-span-8">
-              <RecentPayments payments={stats?.recentPayments} user={user} />
-            </div>
-            <div className="col-span-12 md:col-span-4">
-              <ProgressCardPayment
-                paymentSummary={stats?.paymentSummary}
-                user={user}
-              />
-            </div>
+          <div className="space-y-4">
+            <RecentAppointments
+              appointments={stats?.recentAppointments}
+              user={user}
+            />
+            <RecentPayments payments={stats?.recentPayments} user={user} />
           </div>
         </div>
       </div>
