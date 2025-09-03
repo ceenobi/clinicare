@@ -13,7 +13,7 @@ import Paginate from "@/components/Paginate";
 const Table = lazy(() =>
   import("@/features/appointments/admin/AdminPatientsTable")
 );
-
+//ll
 export default function Appointments() {
   const { accessToken } = useAuth();
   const [searchParams] = useSearchParams();
