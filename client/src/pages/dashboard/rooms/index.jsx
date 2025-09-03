@@ -12,7 +12,7 @@ import ErrorAlert from "@/components/ErrorAlert";
 import { SkeletonTable } from "@/components/LazyLoader";
 import Paginate from "@/components/Paginate";
 const Table = lazy(() => import("@/features/rooms/Table"));
-
+//ll
 export default function Rooms() {
   const { accessToken } = useAuth();
   const [searchParams] = useSearchParams();
