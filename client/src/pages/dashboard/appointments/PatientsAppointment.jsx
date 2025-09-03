@@ -14,7 +14,7 @@ import Paginate from "@/components/Paginate";
 const Table = lazy(() =>
   import("@/features/appointments/patients/PatientsTable")
 );
-
+//ll
 export default function PatientsAppointment() {
   const { accessToken } = useAuth();
   const [searchParams] = useSearchParams();
