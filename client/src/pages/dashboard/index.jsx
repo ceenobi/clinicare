@@ -26,7 +26,6 @@ export default function Dashboard() {
   });
 
   const stats = data?.data?.data;
-  console.log(stats);
 
   if (isPending) {
     return <LazyLoader />;

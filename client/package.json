@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=4800",
-    "build": "CI=false vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
