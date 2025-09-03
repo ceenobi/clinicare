@@ -12,12 +12,11 @@ export default function RecentAppointments({ appointments, user }) {
   const [activeTab, setActiveTab] = useState("all");
 
   const filteredAppointments = useMemo(() => {
-    if (activeTab === "all") return appointments.slice(0, 5) || [];
+    if (activeTab === "all") return appointments?.slice(0, 5) || [];
     return (appointments || [])
-      .slice(0, 5)
-      .filter((a) => a.status === activeTab);
+      ?.slice(0, 5)
+      ?.filter((a) => a.status === activeTab);
   }, [activeTab, appointments]);
-  console.log("pp", filteredAppointments);
   // appointments is an array of objects with a `status` key
   const statusCounts = (appointments || []).reduce((acc, { status }) => {
     if (!status) return acc;
@@ -32,7 +31,7 @@ export default function RecentAppointments({ appointments, user }) {
     statusCountsList.find((s) => s.status === status)?.count || 0;
 
   return (
-    <div className="bg-white rounded-lg p-4 mb-8">
+    <div className="bg-white rounded-lg p-4">
       <div className="flex justify-between items-center">
         <p className="font-semibold">Recent appointments</p>
         <Link

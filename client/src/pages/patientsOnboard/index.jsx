@@ -267,7 +267,7 @@ export default function PatientsOnboard() {
                   id="emergencyContact"
                   register={register}
                   name="emergencyContact"
-                  placeholder="Emergency contact"
+                  placeholder="Emergency contact name"
                   errors={errors}
                   type="text"
                 />

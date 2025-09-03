@@ -32,32 +32,36 @@ export default function ProgressCardPayment({ paymentSummary }) {
     },
   ];
   return (
-    <div className="w-full grid grid-cols-12 md:grid-cols-6 gap-5">
-      {items.map(({ key, label, color, ring }) => {
-        const pct = percentages[key] || 0;
-        const cnt = counts[key] || 0;
-        return (
-          <div key={key} className="col-span-12  bg-white rounded-lg p-4">
-            <p className="font-semibold mb-3">{label}</p>
-            <div className="flex items-center gap-4">
-              <div
-                className={`radial-progress text-white ${color} ${ring} border-4`}
-                style={{ "--value": pct }}
-                aria-valuenow={pct}
-                role="progressbar"
-              >
-                {pct}%
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Count</p>
-                <p className="text-xl font-semibold">
-                  {cnt} <span className="text-gray-500 text-sm">/ {total}</span>
-                </p>
+    <>
+      <h1 className="font-bold mb-2">Payment summary</h1>
+      <div className="w-full grid grid-cols-12 md:grid-cols-6 gap-4">
+        {items.map(({ key, label, color, ring }) => {
+          const pct = percentages[key] || 0;
+          const cnt = counts[key] || 0;
+          return (
+            <div key={key} className="col-span-12  bg-white rounded-lg p-2">
+              <p className="font-semibold mb-3">{label}</p>
+              <div className="flex items-center gap-4">
+                <div
+                  className={`radial-progress text-white ${color} ${ring} border-4`}
+                  style={{ "--value": pct }}
+                  aria-valuenow={pct}
+                  role="progressbar"
+                >
+                  {pct}%
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Count</p>
+                  <p className="text-xl font-semibold">
+                    {cnt}{" "}
+                    <span className="text-gray-500 text-sm">/ {total}</span>
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+    </>
   );
 }

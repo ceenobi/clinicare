@@ -7,8 +7,8 @@ export default function RecentPayments({ payments, user }) {
   const [activeTab, setActiveTab] = useState("all");
 
   const filteredPayments = useMemo(() => {
-    if (activeTab === "all") return payments.slice(0, 5) || [];
-    return (payments || []).slice(0, 5).filter((a) => a.status === activeTab);
+    if (activeTab === "all") return payments?.slice(0, 5) || [];
+    return (payments || [])?.slice(0, 5)?.filter((a) => a.status === activeTab);
   }, [activeTab, payments]);
 
   // appointments is an array of objects with a `status` key
@@ -25,7 +25,7 @@ export default function RecentPayments({ payments, user }) {
     statusCountsList.find((s) => s.status === status)?.count || 0;
 
   return (
-    <div className="bg-white rounded-lg p-4 mb-8">
+    <div className="bg-white rounded-lg p-4">
       <div className="flex justify-between items-center">
         <p className="font-semibold">Recent payments</p>
         <Link

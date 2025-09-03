@@ -71,15 +71,77 @@ export default function Dashboard() {
             }
           />
         </div>
-        <div className="mt-14">
+        <div className="mt-14 space-y-8">
+          {user?.role !== "patient" && (
+            <div className="grid grid-cols-12 gap-4">
+              <div className="col-span-12 md:col-span-6 bg-white p-4 rounded-lg">
+                <h1 className="font-bold mb-4">Recent registered patients</h1>
+                {stats?.recentUsers?.map((user) => (
+                  <div className="flex gap-2 mb-2 items-center" key={user._id}>
+                    <div className="avatar avatar-placeholder">
+                      <div className="w-14 rounded-full bg-gray-300 text-gray-600 border-2 border-gray-300">
+                        {user?.avatar ? (
+                          <img
+                            src={user?.avatar}
+                            alt={user?.fullname}
+                            referrerPolicy="no-referrer"
+                            loading="lazy"
+                            priority="high"
+                          />
+                        ) : (
+                          <span className="text-sm">
+                            {user?.fullname
+                              ?.split(" ")
+                              .map((name) => name[0])
+                              .join("")
+                              .toUpperCase()}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <h1>{user?.fullname}</h1>
+                  </div>
+                ))}
+              </div>
+              <div className="col-span-12 md:col-span-6 bg-white p-4 rounded-lg">
+                <h1 className="font-bold mb-4">Recent inPatients</h1>
+                {stats?.inPatients?.map((user) => (
+                  <div className="flex gap-2 mb-2 items-center" key={user._id}>
+                    <div className="avatar avatar-placeholder">
+                      <div className="w-14 rounded-full bg-gray-300 text-gray-600 border-2 border-gray-300">
+                        {user?.patientId?.avatar ? (
+                          <img
+                            src={user?.patientId?.avatar}
+                            alt={user?.patientId?.fullname}
+                            referrerPolicy="no-referrer"
+                            loading="lazy"
+                            priority="high"
+                          />
+                        ) : (
+                          <span className="text-sm">
+                            {user?.patientId?.fullname
+                              ?.split(" ")
+                              .map((name) => name[0])
+                              .join("")
+                              .toUpperCase()}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <h1>{user?.patientId?.fullname}</h1>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-12 md:col-span-9">
+            <div className="col-span-12 md:col-span-8">
               <RecentAppointments
                 appointments={stats?.recentAppointments}
                 user={user}
               />
             </div>
-            <div className="col-span-12 md:col-span-3">
+            <div className="col-span-12 md:col-span-4">
               <ProgressCardAppointment
                 appointmentSummary={stats?.appointmentSummary}
                 user={user}
@@ -87,10 +149,10 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-12 md:col-span-9">
+            <div className="col-span-12 md:col-span-8">
               <RecentPayments payments={stats?.recentPayments} user={user} />
             </div>
-            <div className="col-span-12 md:col-span-3">
+            <div className="col-span-12 md:col-span-4">
               <ProgressCardPayment
                 paymentSummary={stats?.paymentSummary}
                 user={user}

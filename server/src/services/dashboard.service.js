@@ -1,11 +1,7 @@
-import Patient from "../models/patient.js";
 import User from "../models/user.js";
-import Doctor from "../models/doctor.js";
 import Inpatient from "../models/inpatient.js";
 import Payment from "../models/payment.js";
 import Appointment from "../models/appointment.js";
-import responseHandler from "../utils/responseHandler.js";
-const { errorResponse, notFoundResponse } = responseHandler;
 
 const buildAppointmentSummary = (appointments = []) => {
   const total = appointments.length || 0;
@@ -78,7 +74,7 @@ const dashboardService = {
       return paymentDate >= sevenDaysAgo;
     });
     const appointmentSummary = buildAppointmentSummary(appointments);
-    const paymentSummary = buildAppointmentSummary(allPayments);
+    const paymentSummary = buildPaymentSummary(allPayments);
 
     return {
       appointments,
@@ -95,15 +91,23 @@ const dashboardService = {
     };
   },
   getAllStats: async (next) => {
-    const [appointments, payments, pendingPayments, allPayments] =
-      await Promise.all([
-        Appointment.find()
-          .populate("doctorId", "fullname")
-          .populate("patientId", "fullname email phone"),
-        Payment.find({ status: "confirmed" }),
-        Payment.find({ status: "pending" }).limit(5),
-        Payment.find(),
-      ]);
+    const [
+      appointments,
+      payments,
+      pendingPayments,
+      allPayments,
+      users,
+      inPatients,
+    ] = await Promise.all([
+      Appointment.find()
+        .populate("doctorId", "fullname")
+        .populate("patientId", "fullname email phone"),
+      Payment.find({ status: "confirmed" }),
+      Payment.find({ status: "pending" }).limit(5),
+      Payment.find(),
+      User.find({ role: "patient" }),
+      Inpatient.find().populate("patientId", "fullname email avatar"),
+    ]);
     const totalPayments = payments.reduce((acc, curr) => acc + curr.amount, 0);
     // Get appointments within the past 7 days
     const sevenDaysAgo = new Date();
@@ -117,6 +121,11 @@ const dashboardService = {
     const recentPayments = payments.filter((appointment) => {
       const paymentDate = new Date(appointment.createdAt);
       return paymentDate >= sevenDaysAgo;
+    });
+
+    const recentUsers = users.filter((user) => {
+      const userDate = new Date(user.createdAt);
+      return userDate >= sevenDaysAgo;
     });
 
     const appointmentSummary = buildAppointmentSummary(appointments);
@@ -134,6 +143,8 @@ const dashboardService = {
       recentPayments,
       appointmentSummary,
       paymentSummary,
+      recentUsers,
+      inPatients,
     };
   },
 };

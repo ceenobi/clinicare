@@ -67,23 +67,15 @@ export default function Appointments() {
               <ErrorAlert error={error?.response?.data?.message} />
             ) : (
               <>
-                {appointments?.length > 0 ? (
-                  <>
-                    <Suspense fallback={<SkeletonTable />}>
-                      <Table appointments={appointments} />
-                    </Suspense>
-                    <Paginate
-                      totalPages={totalPages}
-                      hasMore={hasMore}
-                      handlePageChange={handlePageChange}
-                      currentPage={currentPage}
-                    />
-                  </>
-                ) : (
-                  <p className="mt-10 font-semibold text-center">
-                    No appointments found
-                  </p>
-                )}
+                <Suspense fallback={<SkeletonTable />}>
+                  <Table appointments={appointments} />
+                </Suspense>
+                <Paginate
+                  totalPages={totalPages}
+                  hasMore={hasMore}
+                  handlePageChange={handlePageChange}
+                  currentPage={currentPage}
+                />
               </>
             )}
           </>
