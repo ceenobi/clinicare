@@ -1,12 +1,13 @@
 import { RiCloseLine, RiMenuLine } from "@remixicon/react";
-import { useState } from "react";
-import { NavLink, useLocation } from "react-router";
+import { useEffect, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import { dashBoardLinks, roleBasedPathPermissions } from "../utils/constants";
 import Logout from "./logout";
 
 export default function Drawer({ user }) {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const toggleDrawer = () => setOpen(!open);
   const path = location.pathname;
   const roles = ["patient", "doctor", "admin", "nurse", "staff"];
@@ -19,6 +20,15 @@ export default function Drawer({ user }) {
       roleBasedPathPermissions.patient.allowedSubpaths) ||
     (userRole === "nurse" && roleBasedPathPermissions.nurse.allowedSubpaths);
 
+  useEffect(() => {
+    const allowedPaths =
+      roleBasedPathPermissions[userRole]?.allowedSubpaths || [];
+    const isPathAllowed = allowedPaths.includes(path);
+    if (!isAuthorized || !isPathAllowed) {
+      navigate("/dashboard");
+    }
+  }, [isAuthorized, navigate, path, userRole]);
+  
   return (
     <>
       <button onClick={toggleDrawer}>

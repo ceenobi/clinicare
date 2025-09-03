@@ -83,8 +83,12 @@ export default function CreatePayment() {
 
   const mutation = useMutation({
     mutationFn: createPayment,
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
       if (response.status === 201) {
+        // await Promise.all([
+        //   queryClient.invalidateQueries({ queryKey: ["getPatientPayments"] }),
+        //   queryClient.invalidateQueries({ queryKey: ["getAllPayments"] }),
+        // ]);
         setMsg(response?.data?.message);
         setShowSuccess(true);
       }
@@ -95,21 +99,30 @@ export default function CreatePayment() {
     },
   });
 
-  const paymentType = ["appointment", "admission", "other"];
-  if (isPending) {
-    return <div className="my-4 text-center">Fecthing data...</div>;
-  }
+  // useEffect(() => {
+  //   async function revalidateData() {
+  //     if (showSuccess) {
+  //       await Promise.all([
+  //         queryClient.refetchQueries({ queryKey: ["getPatientPayments"] }),
+  //         queryClient.refetchQueries({ queryKey: ["getAllPayments"] }),
+  //       ]);
+  //     }
+  //   }
+  //   revalidateData()
+  // }, [queryClient, showSuccess]);
 
   const resetModal = async () => {
-    await Promise.all([
-      queryClient.invalidateQueries({ queryKey: ["getPatientPayments"] }),
-      queryClient.invalidateQueries({ queryKey: ["getAllPayments"] }),
-    ]);
-    setIsOpen(false);
+    await queryClient.invalidateQueries({ queryKey: ["getAllPayments"] }),
+      setIsOpen(false);
     setShowSuccess(false);
     setError(null);
     reset();
   };
+
+  const paymentType = ["appointment", "admission", "other"];
+  if (isPending) {
+    return <div className="my-4 text-center">Fetching data...</div>;
+  }
 
   const onSubmit = async (formData) => {
     mutation.mutate({ formData, accessToken });

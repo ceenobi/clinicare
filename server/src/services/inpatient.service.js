@@ -55,7 +55,7 @@ const inpatientService = {
     if (inpatientExists && inpatientExists.status === "discharged") {
       return next(
         errorResponse(
-          "Payment for this room is used. Inpatient already discharged",
+          "Payment for this room is used. Patient already discharged",
           400
         )
       );
@@ -65,7 +65,7 @@ const inpatientService = {
       paymentId: payment._id,
     });
     if (!inpatient) {
-      return next(errorResponse("Inpatient could not be created", 400));
+      return next(errorResponse("Patient could not be admitted", 400));
     }
     if (room.occupants.includes(inpatient.patientId)) {
       return next(errorResponse("Patient already in room", 400));
@@ -190,7 +190,7 @@ const inpatientService = {
       inpatients,
     };
   },
-  updateInpatient: async (patientId, formData, next) => {
+  updateInpatient: async (inpatientId, formData, next) => {
     const admissionDate = new Date(formData.admissionDate);
     const dischargeDate = new Date(formData.dischargeDate);
     const currentDate = new Date();
@@ -205,7 +205,7 @@ const inpatientService = {
         errorResponse("Discharge date cannot be before admission date", 400)
       );
     }
-    const inpatient = await Inpatient.findOne({ patientId: patientId });
+    const inpatient = await Inpatient.findById(inpatientId);
     if (!inpatient) {
       return next(notFoundResponse("Inpatient not found"));
     }
@@ -215,11 +215,13 @@ const inpatientService = {
       }
     }
     if (["discharged", "transferred"].includes(formData.status)) {
+      inpatient.dischargeDate = Date.now();
       const room = await Room.findById(formData.roomId);
       room.occupants = room.occupants.filter(
         (occupant) => occupant.toString() !== inpatient.patientId.toString()
       );
       await room.save();
+      await inpatient.save();
     }
     const updatedInPatient = await inpatient.save();
     return updatedInPatient;

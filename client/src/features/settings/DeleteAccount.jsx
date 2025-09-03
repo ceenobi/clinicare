@@ -24,7 +24,7 @@ export default function DeleteAccount() {
       }
     },
     onError: (error) => {
-      console.log(error);
+      import.meta.env.DEV && console.log(error);
       setError(error?.response?.data?.message || "Error deleting your account");
     },
   });

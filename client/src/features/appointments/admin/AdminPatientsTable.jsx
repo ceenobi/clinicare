@@ -13,7 +13,7 @@ export default function AdminPatientsTable({ appointments }) {
     const cellValue = appointment[columnKey];
     switch (columnKey) {
       case "appointmentId":
-        return <div>{appointment?._id}</div>;
+        return <div className="text-sm">{appointment?._id}</div>;
       case "patientName":
         return (
           <>

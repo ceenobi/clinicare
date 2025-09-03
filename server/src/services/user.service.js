@@ -301,6 +301,17 @@ const userService = {
     if (user.avatarId) {
       await deleteFromCloudinary(user.avatarId);
     }
+    if (user.role === "patient") {
+      const patient = await Patient.findOne({ userId });
+      const inpatient = await Inpatient.findOne({ patientId: patient });
+      if (inpatient) {
+        await inpatient.deleteOne();
+      }
+      await Patient.findOneAndDelete({ userId });
+    }
+    if (user.role === "doctor") {
+      await Doctor.findOneAndDelete({ userId });
+    }
     await user.deleteOne();
     return true;
   },

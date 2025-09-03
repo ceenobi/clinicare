@@ -1,10 +1,12 @@
 import { dashBoardLinks, roleBasedPathPermissions } from "@/utils/constants";
 import Logo from "./Logo";
-import { NavLink, useLocation } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import Logout from "./Logout";
+import { useEffect } from "react";
 
 export default function Sidebar({ user }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const path = location.pathname;
   const roles = ["patient", "doctor", "admin", "nurse", "staff"];
   //match user role based of our roles array using the find method
@@ -17,6 +19,15 @@ export default function Sidebar({ user }) {
       roleBasedPathPermissions.patient.allowedSubpaths) ||
     (userRole === "nurse" && roleBasedPathPermissions.nurse.allowedSubpaths) ||
     (userRole === "staff" && roleBasedPathPermissions.staff.allowedSubpaths);
+
+  useEffect(() => {
+    const allowedPaths =
+      roleBasedPathPermissions[userRole]?.allowedSubpaths || [];
+    const isPathAllowed = allowedPaths.includes(path);
+    if (!isAuthorized || !isPathAllowed) {
+      navigate("/dashboard");
+    }
+  }, [isAuthorized, navigate, path, userRole]);
 
   return (
     <aside className="hidden bg-slate-100 lg:block min-h-screen fixed z-50 w-[200px]">

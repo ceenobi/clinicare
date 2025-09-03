@@ -5,7 +5,7 @@ import { Outlet } from "react-router";
 
 export default function OnboardLayout() {
   return (
-    <div className="min-h-screen bg-slate-100 p-4">
+    <div className="min-h-dvh bg-slate-100 p-4">
       <div className="flex justify-between items-center">
         <Logo />
         <Logout />

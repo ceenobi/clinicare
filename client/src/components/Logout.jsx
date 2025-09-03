@@ -18,7 +18,7 @@ export default function Logout() {
     mutationFn: logout,
     onSuccess: (response) => {
       toast.success(response?.data?.message);
-      queryClient.invalidateQueries({ queryKey: ["auth_user"] });
+      queryClient.clear()
       setIsOpen(false);
       setAccessToken(null);
       navigate("/account/signin");

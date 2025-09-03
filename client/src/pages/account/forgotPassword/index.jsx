@@ -30,7 +30,7 @@ export default function ForgotPassword() {
       toast.success(response?.data?.message || "Password reset link sent");
     },
     onError: (error) => {
-      console.log(error);
+      import.meta.env.DEV && console.log(error);
       setError(
         error?.response?.data?.message || "Failed to send password link"
       );

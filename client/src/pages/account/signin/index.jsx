@@ -40,7 +40,7 @@ export default function Signin() {
       }
     },
     onError: (error) => {
-      console.log(error);
+      import.meta.env.DEV && console.log(error);
       setError(error?.response?.data?.message || "Login failed");
     },
   });

@@ -2,6 +2,9 @@ import { getAllStats, getPatientStats } from "@/api/dashboard";
 import ErrorAlert from "@/components/ErrorAlert";
 import { LazyLoader } from "@/components/LazyLoader";
 import PageWrapper from "@/components/PageWrapper";
+import ProgressCard from "@/features/dashboard/ProgressCard";
+import RecentAppointments from "@/features/dashboard/RecentAppointments";
+import RecentPayments from "@/features/dashboard/RecentPayments";
 import StatsCard from "@/features/dashboard/StatsCard";
 import { useAuth } from "@/store";
 import { formatCurrency } from "@/utils/constants";
@@ -36,7 +39,7 @@ export default function Dashboard() {
           <p className="text-gray-500">See recent activity</p>
         </div>
       </div>
-      <div className="mt-8 space-y-6">
+      <div className="mt-8 space-y-8">
         {isError && <ErrorAlert error={error?.response?.data?.message} />}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <StatsCard
@@ -66,6 +69,23 @@ export default function Dashboard() {
                 : "0 pending payments"
             }
           />
+        </div>
+        <div className="mt-14">
+          <div className="grid grid-cols-12 gap-4">
+            <div className="col-span-12 md:col-span-9">
+              <RecentAppointments
+                appointments={stats?.recentAppointments}
+                user={user}
+              />
+              <RecentPayments payments={stats?.recentPayments} user={user} />
+            </div>
+            <div className="col-span-12 md:col-span-3">
+              <ProgressCard
+                appointmentSummary={stats?.appointmentSummary}
+                user={user}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </PageWrapper>

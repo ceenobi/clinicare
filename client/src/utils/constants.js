@@ -173,8 +173,8 @@ export const dashBoardLinks = [
     ],
   },
   {
-    id: "setting",
-    title: "Setting",
+    id: "settings",
+    title: "Settings",
     children: [
       {
         id: "users",
@@ -184,7 +184,7 @@ export const dashBoardLinks = [
       },
       {
         id: "setting",
-        name: "Setting",
+        name: "Settings",
         href: "/dashboard/settings",
         Icon: RiSettingsLine,
       },

@@ -4,7 +4,7 @@ import { Outlet } from "react-router";
 
 export default function AuthLayout() {
   return (
-    <div className="min-h-screen bg-slate-100 p-4">
+    <div className="min-h-dev bg-slate-100 p-4">
       <Logo />
       <div className="flex items-center justify-center min-h-[calc(100vh-6rem)] gap-2">
         <Outlet />

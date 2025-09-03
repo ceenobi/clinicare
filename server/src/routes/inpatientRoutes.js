@@ -17,6 +17,7 @@ router.post(
   authorizedRoles("admin"),
   validateFormData(validateInpatientSchema),
   clearCache("inpatients"),
+  clearCache("rooms"),
   register
 );
 
@@ -34,6 +35,7 @@ router.patch(
   authorizedRoles("admin"),
   validateFormData(validateInpatientSchema),
   clearCache("inpatients"),
+  clearCache("rooms"),
   updateInpatient
 );
 

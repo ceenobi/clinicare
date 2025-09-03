@@ -9,7 +9,7 @@ import { validateConfirmAppointmentSchema } from "@/utils/dataSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RiEditLine } from "@remixicon/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function EditPatientsAppointment({ appointment }) {
@@ -32,11 +32,14 @@ export default function EditPatientsAppointment({ appointment }) {
   } = useForm({
     resolver: zodResolver(validateConfirmAppointmentSchema),
   });
-  const doctors = data?.data?.data?.doctorMeta || [];
-  const doctorsName = doctors?.map((doctor) => ({
-    id: doctor.userId._id,
-    name: doctor.userId.fullname,
-  }));
+
+  const doctorsName = useMemo(() => {
+    const doctors = data?.data?.data?.doctorMeta || [];
+    return doctors?.map((doctor) => ({
+      id: doctor.userId._id,
+      name: doctor.userId.fullname,
+    }));
+  }, [data?.data?.data]);
 
   useEffect(() => {
     if (appointment) {
@@ -102,7 +105,7 @@ export default function EditPatientsAppointment({ appointment }) {
       >
         {isError ||
           (err && <ErrorAlert error={error?.response?.data?.message || err} />)}
-        {doctors?.length > 0 ? (
+        {doctorsName?.length > 0 ? (
           <>
             {showSuccess ? (
               <>

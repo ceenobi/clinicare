@@ -12,7 +12,7 @@
   font-family: "BR Shape", sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
+  
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -22,6 +22,7 @@
 body {
   min-width: 320px;
   min-height: 100vh;
+  background: #f1f5f9 !important;
 }
 
 ::view-transition-old(root) {

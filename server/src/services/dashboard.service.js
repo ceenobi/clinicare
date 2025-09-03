@@ -7,15 +7,38 @@ import Appointment from "../models/appointment.js";
 import responseHandler from "../utils/responseHandler.js";
 const { errorResponse, notFoundResponse } = responseHandler;
 
+const buildAppointmentSummary = (appointments = []) => {
+  const total = appointments.length || 0;
+  const counts = appointments.reduce(
+    (acc, { status }) => {
+      if (status === "scheduled") acc.scheduled += 1;
+      else if (status === "confirmed") acc.confirmed += 1;
+      else if (status === "cancelled") acc.cancelled += 1;
+      return acc;
+    },
+    { scheduled: 0, confirmed: 0, cancelled: 0 }
+  );
+  const pct = (n) => (total ? Math.round((n / total) * 100) : 0);
+  return {
+    counts,
+    percentages: {
+      scheduled: pct(counts.scheduled),
+      confirmed: pct(counts.confirmed),
+      cancelled: pct(counts.cancelled),
+    },
+    total,
+  };
+};
+
 const dashboardService = {
   getPatientStats: async (userId, next) => {
-    const [appointments, payments] = await Promise.all([
-      Appointment.find({ patientId: userId.toString() }),
-      Payment.find({ patientId: userId.toString(), status: "confirmed" }),
+    const [appointments, payments, pendingPayments] = await Promise.all([
+      Appointment.find({ patientId: userId.toString() })
+        .populate("doctorId", "fullname")
+        .populate("patientId", "fullname email phone"),
+      Payment.find({ patientId: userId.toString() }).limit(5),
+      Payment.find({ status: "pending" }).limit(5),
     ]);
-    if (!appointments || !payments) {
-      return next(notFoundResponse("Documents not found"));
-    }
     const totalPayments = payments.reduce((acc, curr) => acc + curr.amount, 0);
     // Get appointments within the past 7 days
     const sevenDaysAgo = new Date();
@@ -25,7 +48,11 @@ const dashboardService = {
       const appointmentDate = new Date(appointment.createdAt);
       return appointmentDate >= sevenDaysAgo;
     });
-    const pendingPayments = await Payment.find({ status: "pending" });
+    const recentPayments = payments.filter((appointment) => {
+      const paymentDate = new Date(appointment.createdAt);
+      return paymentDate >= sevenDaysAgo;
+    });
+    const appointmentSummary = buildAppointmentSummary(appointments);
 
     return {
       appointments,
@@ -36,16 +63,18 @@ const dashboardService = {
       recentAppointments: recentAppointments,
       recentAppointmentCount: recentAppointments.length,
       pendingPayments,
+      recentPayments,
+      appointmentSummary,
     };
   },
   getAllStats: async (next) => {
-    const [appointments, payments] = await Promise.all([
-      Appointment.find(),
+    const [appointments, payments, pendingPayments] = await Promise.all([
+      Appointment.find()
+        .populate("doctorId", "fullname")
+        .populate("patientId", "fullname email phone"),
       Payment.find({ status: "confirmed" }),
+      Payment.find({ status: "pending" }).limit(5),
     ]);
-    if (!appointments || !payments) {
-      return next(notFoundResponse("Documents not found"));
-    }
     const totalPayments = payments.reduce((acc, curr) => acc + curr.amount, 0);
     // Get appointments within the past 7 days
     const sevenDaysAgo = new Date();
@@ -55,7 +84,13 @@ const dashboardService = {
       const appointmentDate = new Date(appointment.createdAt);
       return appointmentDate >= sevenDaysAgo;
     });
-    const pendingPayments = await Payment.find({ status: "pending" });
+
+    const recentPayments = payments.filter((appointment) => {
+      const paymentDate = new Date(appointment.createdAt);
+      return paymentDate >= sevenDaysAgo;
+    });
+
+    const appointmentSummary = buildAppointmentSummary(appointments);
 
     return {
       appointments,
@@ -66,6 +101,8 @@ const dashboardService = {
       recentAppointments: recentAppointments,
       recentAppointmentCount: recentAppointments.length,
       pendingPayments,
+      recentPayments,
+      appointmentSummary,
     };
   },
 };

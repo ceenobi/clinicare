@@ -74,7 +74,7 @@ export default function VerifyAccount() {
       setSuccess(true);
     },
     onError: (error) => {
-      console.log(error);
+      import.meta.env.DEV && console.log(error);
       setError(error?.response?.data?.message || "Account verifcation failed");
     },
   });
@@ -85,7 +85,7 @@ export default function VerifyAccount() {
       toast.success(response?.data?.message || "Verification token sent");
     },
     onError: (error) => {
-      console.log(error);
+      import.meta.env.DEV && console.log(error);
       setError(error?.response?.data?.message || "Verification code failed");
     },
   });

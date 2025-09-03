@@ -20,7 +20,7 @@ export const getAllInpatients = async (searchParams, accessToken) => {
   params.append("page", page);
   params.append("limit", limit);
   if (query) params.append("query", query);
-  if (status) params.append("gender", status);
+  if (status) params.append("status", status);
   if (admissionDate) params.append("admissionDate", admissionDate);
   if (dischargeDate) params.append("dischargeDate", dischargeDate);
   return await axiosInstance.get(
@@ -29,9 +29,9 @@ export const getAllInpatients = async (searchParams, accessToken) => {
   );
 };
 
-export const updateInpatient = async ({ patientId, formData, accessToken }) => {
+export const updateInpatient = async ({ inpatientId, formData, accessToken }) => {
   return await axiosInstance.patch(
-    `/inpatients/${patientId}/update`,
+    `/inpatients/${inpatientId}/update`,
     formData,
     headers(accessToken)
   );

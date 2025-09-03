@@ -6,7 +6,6 @@ export function useFile() {
 
   const handleFile = (e) => {
     const file = e.target.files?.[0];
-    console.log(file)
     if (file && file.size > 5 * 1024 * 1024) {
       setError("File with maximum size of 5MB is allowed");
       return false;

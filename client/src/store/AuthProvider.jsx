@@ -45,7 +45,6 @@ export default function AuthProvider({ children }) {
       setUser(data?.data?.data);
     }
   }, [data?.data?.data, data?.status]);
-  console.log(user);
 
   if (isPending && accessToken) {
     return <LazyLoader />;

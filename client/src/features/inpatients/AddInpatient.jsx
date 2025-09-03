@@ -178,7 +178,7 @@ export default function AddInpatient() {
                   )}
                 </fieldset>
               </div>
-              <div className="md:col-span-6">
+              <div className="md:col-span-12">
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend">Select Room</legend>
                   <select
@@ -230,17 +230,6 @@ export default function AddInpatient() {
                   id="admissionDate"
                   register={register}
                   name="admissionDate"
-                  placeholder="Date"
-                  errors={errors}
-                  type="date"
-                />
-              </div>
-              <div className="md:col-span-6">
-                <FormField
-                  label="Discharge Date"
-                  id="dischargeDate"
-                  register={register}
-                  name="dischargeDate"
                   placeholder="Date"
                   errors={errors}
                   type="date"

@@ -41,7 +41,7 @@ export default function ResetPassword() {
       navigate("/account/signin");
     },
     onError: (error) => {
-      console.log(error);
+      import.meta.env.DEV && console.log(error);
       setError(error?.response?.data?.message);
     },
   });

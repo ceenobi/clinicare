@@ -36,9 +36,9 @@ export const getAllInpatients = tryCatchFn(async (req, res, next) => {
 });
 
 export const updateInpatient = tryCatchFn(async (req, res, next) => {
-  const { id: patientId } = req.params;
+  const { id: inpatientId } = req.params;
   const responseData = await inpatientService.updateInpatient(
-    patientId,
+    inpatientId,
     req.body,
     next
   );
