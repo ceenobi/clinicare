@@ -5,11 +5,11 @@ import { updatePasswordSchema } from "@/utils/dataSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useState } from "react";
-import FormField from "@/components/formField";
 import ErrorAlert from "@/components/errorAlert";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateUserPassword, logout } from "@/api/auth";
 import { useAuth } from "@/store";
+import FormField from "@/components/FormField";
 
 export default function Password() {
   useMetaArgs({
