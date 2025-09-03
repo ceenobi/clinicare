@@ -9,7 +9,7 @@ import { SkeletonTable } from "@/components/LazyLoader";
 import Search from "@/components/Search";
 import Filter from "@/features/doctors/Filter";
 import ErrorAlert from "@/components/ErrorAlert";
-import Paginate from "@/components/Paginate";
+import Paginate from "@/components/paginate";
 const Table = lazy(() => import("@/features/doctors/Table"));
 //ll
 export default function Doctors() {

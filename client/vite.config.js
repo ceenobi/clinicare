@@ -10,7 +10,6 @@ export default defineConfig({
     alias: {
       // eslint-disable-next-line no-undef
       "@": path.resolve(__dirname, "./src"),
-      extensions: ['.js', '.jsx', '.ts', '.tsx']
     },
   },
   server: {
@@ -19,15 +18,13 @@ export default defineConfig({
     open: true,
     proxy: {
       "/api/v1": {
-        target: "http://localhost:5200",
+        target: "http://localhost:5400",
         changeOrigin: true,
         secure: false,
       },
     },
     allowedHosts: [
       "localhost",
-      "salmon-daring-partially.ngrok-free.app",
-      "https://hospital-mgmt-server.vercel.app",
       "127.0.0.1",
       "0.0.0.0",
       "::1",

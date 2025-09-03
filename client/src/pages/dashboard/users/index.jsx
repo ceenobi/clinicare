@@ -10,7 +10,7 @@ import usePaginate from "@/hooks/usePaginate";
 import { useAuth } from "@/store";
 import { useQuery } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
-import Paginate from "@/components/Paginate";
+import Paginate from "@/components/paginate";
 const UsersCard = lazy(() => import("@/features/users/UsersCard"));
 //lljjjkdjd
 

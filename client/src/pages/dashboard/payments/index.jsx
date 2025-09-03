@@ -10,7 +10,7 @@ import { useAuth } from "@/store";
 import { useQuery } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
 import { useSearchParams } from "react-router";
-import Paginate from "@/components/Paginate";
+import Paginate from "@/components/paginate";
 const Table = lazy(() => import("@/features/payments/PaymentsTable"));
 //ll
 export default function Payments() {

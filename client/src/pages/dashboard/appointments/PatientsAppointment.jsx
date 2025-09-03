@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
 import { useSearchParams } from "react-router";
 import ErrorAlert from "@/components/ErrorAlert";
-import Paginate from "@/components/Paginate";
+import Paginate from "@/components/paginate";
 const Table = lazy(() =>
   import("@/features/appointments/patients/PatientsTable")
 );

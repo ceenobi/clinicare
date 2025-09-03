@@ -10,7 +10,7 @@ import { useSearchParams } from "react-router";
 import { lazy, Suspense } from "react";
 import ErrorAlert from "@/components/ErrorAlert";
 import { SkeletonTable } from "@/components/LazyLoader";
-import Paginate from "@/components/Paginate";
+import Paginate from "@/components/paginate";
 const Table = lazy(() => import("@/features/rooms/Table"));
 //ll
 export default function Rooms() {
