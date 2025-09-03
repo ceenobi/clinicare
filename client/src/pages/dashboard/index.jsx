@@ -73,7 +73,7 @@ export default function Dashboard() {
         <div className="mt-14 space-y-8">
           {user?.role !== "patient" && (
             <div className="grid grid-cols-12 gap-4">
-              <div className="col-span-12 md:col-span-6 bg-white p-4 rounded-lg shadow">
+              <div className="col-span-12 md:col-span-6 bg-white p-4 rounded-lg ">
                 <h1 className="font-bold mb-4">Recent registered patients</h1>
                 {stats?.recentUsers?.map((user) => (
                   <div className="flex gap-2 mb-2 items-center" key={user._id}>

@@ -10,6 +10,7 @@ export default function FormField({
     name,
     classname,
     disabled = false,
+    defaultValue
   }) {
     const toggleVisibility = () => setIsVisible?.((prev) => !prev);
     return (
@@ -25,6 +26,7 @@ export default function FormField({
             id={id}
             {...register(name)}
             disabled={disabled}
+            defaultValue={defaultValue}
           />
           {type === "password" && (
             <button

@@ -26,7 +26,7 @@ export default function Paystack({ payment }) {
       }
     },
     onError: (error) => {
-      console.error(error);
+      import.meta.env.DEV && console.error(error);
       toast.error(error?.response?.data?.message || "Error confirming payment");
     },
   });

@@ -72,6 +72,7 @@ export default function Signin() {
             register={register}
             errors={errors}
             name="email"
+            defaultValue="demoacc@test.com"
           />
           <div>
             <FormField
@@ -84,6 +85,7 @@ export default function Signin() {
               name="password"
               isVisible={isVisible}
               setIsVisible={setIsVisible}
+              defaultValue="Techstudio!!"
             />
             <Link
               to="/account/forgot-password"
