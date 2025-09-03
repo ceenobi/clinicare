@@ -1,16 +1,11 @@
 import { useMemo } from "react";
-import {
-  isRouteErrorResponse,
-  useRouteError,
-  useNavigate,
-  useLocation,
-} from "react-router";
+import { isRouteErrorResponse, useRouteError, useNavigate } from "react-router";
 
 export default function ErrorBoundary() {
   const error = useRouteError();
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from || "/";
+  // const location = useLocation();
+  // const from = location.state?.from || "/";
   if (import.meta.env.DEV) {
     console.error(error);
   }
@@ -35,7 +30,7 @@ export default function ErrorBoundary() {
     if (msgs.includes(details)) {
       window.location.reload();
     } else {
-      navigate(from, {replace: true});
+      navigate(0);
     }
   };
 
