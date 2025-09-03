@@ -8,8 +8,8 @@ import { lazy, Suspense } from "react";
 import { SkeletonTable } from "@/components/LazyLoader";
 import Search from "@/components/Search";
 import Filter from "@/features/doctors/Filter";
-import Paginate from "@/components/Paginate";
 import ErrorAlert from "@/components/ErrorAlert";
+import Paginate from "@/components/Paginate";
 const Table = lazy(() => import("@/features/doctors/Table"));
 
 export default function Doctors() {

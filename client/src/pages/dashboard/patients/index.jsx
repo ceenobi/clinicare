@@ -2,7 +2,6 @@ import { getAllPatients } from "@/api/patients";
 import ErrorAlert from "@/components/ErrorAlert";
 import { SkeletonTable } from "@/components/LazyLoader";
 import PageWrapper from "@/components/PageWrapper";
-import Paginate from "@/components/Paginate";
 import Search from "@/components/Search";
 import Filter from "@/features/patients/Filter";
 import usePaginate from "@/hooks/usePaginate";
@@ -10,6 +9,7 @@ import { useAuth } from "@/store";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router";
 import { lazy, Suspense } from "react";
+import Paginate from "@/components/Paginate";
 const Table = lazy(() => import("@/features/patients/Table"));
 
 export default function Patients() {

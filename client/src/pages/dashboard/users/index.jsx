@@ -2,7 +2,6 @@ import { getAllUsers } from "@/api/auth";
 import ErrorAlert from "@/components/ErrorAlert";
 import { SkeletonCard } from "@/components/LazyLoader";
 import PageWrapper from "@/components/PageWrapper";
-import Paginate from "@/components/Paginate";
 import Search from "@/components/Search";
 import Filter from "@/features/users/Filter";
 import { useSearchParams } from "react-router";
@@ -11,6 +10,7 @@ import usePaginate from "@/hooks/usePaginate";
 import { useAuth } from "@/store";
 import { useQuery } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
+import Paginate from "@/components/Paginate";
 const UsersCard = lazy(() => import("@/features/users/UsersCard"));
 
 export default function Users() {

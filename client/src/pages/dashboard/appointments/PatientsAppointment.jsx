@@ -1,7 +1,6 @@
 import { getPatientAppointments } from "@/api/appointments";
 import { SkeletonTable } from "@/components/LazyLoader";
 import PageWrapper from "@/components/PageWrapper";
-import Paginate from "@/components/Paginate";
 import Search from "@/components/Search";
 import BookAppointment from "@/features/appointments/patients/BookAppointment";
 import Filter from "@/features/appointments/Filter";
@@ -11,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
 import { useSearchParams } from "react-router";
 import ErrorAlert from "@/components/ErrorAlert";
+import Paginate from "@/components/Paginate";
 const Table = lazy(() =>
   import("@/features/appointments/patients/PatientsTable")
 );
