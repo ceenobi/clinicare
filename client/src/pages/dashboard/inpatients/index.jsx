@@ -40,7 +40,7 @@ export default function Inpatients() {
     currentPage: data?.data?.data?.meta?.currentPage || 1,
   });
   const inpatients = data?.data?.data?.inpatients || [];
-  
+
   return (
     <PageWrapper>
       <div className="flex justify-between items-center">
