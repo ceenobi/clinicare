@@ -11,7 +11,7 @@ import Filter from "@/features/doctors/Filter";
 import ErrorAlert from "@/components/ErrorAlert";
 import Paginate from "@/components/Paginate";
 const Table = lazy(() => import("@/features/doctors/Table"));
-
+//ll
 export default function Doctors() {
   const { accessToken } = useAuth();
   const [searchParams] = useSearchParams();

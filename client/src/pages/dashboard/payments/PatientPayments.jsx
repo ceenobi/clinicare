@@ -11,7 +11,7 @@ import Search from "@/components/Search";
 import { SkeletonTable } from "@/components/LazyLoader";
 import Paginate from "@/components/Paginate";
 const Table = lazy(() => import("@/features/payments/PaymentsTable"));
-
+//ll
 export default function PatientPayments() {
   const { accessToken, user } = useAuth();
   const [searchParams] = useSearchParams();

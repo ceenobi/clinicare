@@ -2,7 +2,6 @@ import { getAllPayments } from "@/api/payments";
 import ErrorAlert from "@/components/ErrorAlert";
 import { SkeletonTable } from "@/components/LazyLoader";
 import PageWrapper from "@/components/PageWrapper";
-import Paginate from "@/components/Paginate";
 import Search from "@/components/Search";
 import CreatePayment from "@/features/payments/CreatePayment";
 import Filter from "@/features/payments/Filter";
@@ -11,8 +10,9 @@ import { useAuth } from "@/store";
 import { useQuery } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
 import { useSearchParams } from "react-router";
+import Paginate from "@/components/Paginate";
 const Table = lazy(() => import("@/features/payments/PaymentsTable"));
-
+//ll
 export default function Payments() {
   const { accessToken, user } = useAuth();
   const [searchParams] = useSearchParams();
