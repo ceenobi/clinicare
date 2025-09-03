@@ -12,7 +12,7 @@ import { lazy, Suspense } from "react";
 import { SkeletonTable } from "@/components/LazyLoader";
 import Paginate from "@/components/Paginate";
 const Table = lazy(() => import("@/features/inpatients/Table"));
-//ll
+
 export default function Inpatients() {
   const { accessToken } = useAuth();
   const [searchParams] = useSearchParams();
