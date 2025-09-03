@@ -1,4 +1,4 @@
-import Drawer from "./drawer";
+import Drawer from "./Drawer";
 import Logo from "./Logo";
 
 export default function MobileNav({ user }) {
