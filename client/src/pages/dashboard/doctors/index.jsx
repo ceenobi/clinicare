@@ -10,9 +10,15 @@ import Search from "@/components/Search";
 import Filter from "@/features/doctors/Filter";
 import ErrorAlert from "@/components/ErrorAlert";
 import Paginate from "@/components/paginate";
+import useMetaArgs from "@/hooks/useMeta";
 const Table = lazy(() => import("@/features/doctors/Table"));
-//ll
+
 export default function Doctors() {
+  useMetaArgs({
+    title: "Doctors - Clinicare",
+    description: "Manage your doctors.",
+    keywords: "Clinicare, doctors, account",
+  });
   const { accessToken } = useAuth();
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;

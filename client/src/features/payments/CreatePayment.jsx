@@ -3,6 +3,7 @@ import { createPayment } from "@/api/payments";
 import ErrorAlert from "@/components/ErrorAlert";
 import FormField from "@/components/FormField";
 import Modal from "@/components/Modal";
+import SelectField from "@/components/SelectField";
 import { useAuth } from "@/store";
 import { formatCurrency } from "@/utils/constants";
 import { validateCreatePaymentSchema } from "@/utils/dataSchema";
@@ -19,7 +20,7 @@ export default function CreatePayment() {
   const [msg, setMsg] = useState(null);
   const [err, setError] = useState(null);
   const { accessToken } = useAuth();
-  const { queryClient } = useQueryClient();
+  const queryClient = useQueryClient();
   const { isPending, data, error, isError } = useQuery({
     queryKey: ["getAppointmentsMeta", accessToken],
     queryFn: () => getAppointmentMeta(accessToken),
@@ -85,10 +86,6 @@ export default function CreatePayment() {
     mutationFn: createPayment,
     onSuccess: async (response) => {
       if (response.status === 201) {
-        // await Promise.all([
-        //   queryClient.invalidateQueries({ queryKey: ["getPatientPayments"] }),
-        //   queryClient.invalidateQueries({ queryKey: ["getAllPayments"] }),
-        // ]);
         setMsg(response?.data?.message);
         setShowSuccess(true);
       }
@@ -99,21 +96,12 @@ export default function CreatePayment() {
     },
   });
 
-  // useEffect(() => {
-  //   async function revalidateData() {
-  //     if (showSuccess) {
-  //       await Promise.all([
-  //         queryClient.refetchQueries({ queryKey: ["getPatientPayments"] }),
-  //         queryClient.refetchQueries({ queryKey: ["getAllPayments"] }),
-  //       ]);
-  //     }
-  //   }
-  //   revalidateData()
-  // }, [queryClient, showSuccess]);
-
   const resetModal = async () => {
-    await queryClient.invalidateQueries({ queryKey: ["getAllPayments"] }),
-      setIsOpen(false);
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: ["getPatientPayments"] }),
+      queryClient.invalidateQueries({ queryKey: ["getAllPayments"] }),
+    ]);
+    setIsOpen(false);
     setShowSuccess(false);
     setError(null);
     reset();
@@ -168,50 +156,26 @@ export default function CreatePayment() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="md:grid grid-cols-12 gap-4">
               <div className="md:col-span-6">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Select Patient</legend>
-                  <select
-                    defaultValue={""}
-                    className="select capitalize w-full"
-                    name="patientId"
-                    {...register("patientId")}
-                  >
-                    <option value="">Select patient</option>
-                    {patientsName?.map((option, index) => (
-                      <option key={index} value={option.id}>
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
-                  {errors?.patientId?.message && (
-                    <span className="text-xs text-red-500">
-                      {errors?.patientId?.message}
-                    </span>
-                  )}
-                </fieldset>
+                <SelectField
+                  label="Patient Name"
+                  id="patientId"
+                  register={register}
+                  name="patientId"
+                  placeholder="Patient name"
+                  data={patientsName}
+                  errors={errors}
+                />
               </div>
               <div className="md:col-span-6">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Payment Type</legend>
-                  <select
-                    defaultValue={""}
-                    className="select capitalize w-full"
-                    name="paymentType"
-                    {...register("paymentType")}
-                  >
-                    <option value="">Payment Type</option>
-                    {paymentType?.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  {errors?.paymentType?.message && (
-                    <span className="text-xs text-red-500">
-                      {errors?.paymentType?.message}
-                    </span>
-                  )}
-                </fieldset>
+                <SelectField
+                  label="Payment Type"
+                  id="paymentType"
+                  register={register}
+                  name="paymentType"
+                  placeholder="Payment type"
+                  data={paymentType}
+                  errors={errors}
+                />
               </div>
               {showAppointmentId && (
                 <div className="md:col-span-12">

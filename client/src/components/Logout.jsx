@@ -18,10 +18,10 @@ export default function Logout() {
     mutationFn: logout,
     onSuccess: (response) => {
       toast.success(response?.data?.message);
-      queryClient.clear()
+      queryClient.clear();
       setIsOpen(false);
       setAccessToken(null);
-      navigate("/account/signin");
+      navigate("/account/signin", { replace: true });
     },
     onError: (error) => {
       console.error(error);

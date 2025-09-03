@@ -11,9 +11,15 @@ import ErrorAlert from "@/components/ErrorAlert";
 import { lazy, Suspense } from "react";
 import { SkeletonTable } from "@/components/LazyLoader";
 import Paginate from "@/components/paginate";
+import useMetaArgs from "@/hooks/useMeta";
 const Table = lazy(() => import("@/features/inpatients/Table"));
 
 export default function Inpatients() {
+  useMetaArgs({
+    title: "Manage Inpatients",
+    description: "Inpatients",
+    keywords: "Health, Patients",
+  });
   const { accessToken } = useAuth();
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;

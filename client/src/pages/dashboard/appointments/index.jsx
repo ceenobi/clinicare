@@ -10,11 +10,16 @@ import ErrorAlert from "@/components/ErrorAlert";
 import { lazy, Suspense } from "react";
 import { SkeletonTable } from "@/components/LazyLoader";
 import Paginate from "@/components/paginate";
+import useMetaArgs from "@/hooks/useMeta";
 const Table = lazy(() =>
   import("@/features/appointments/admin/AdminPatientsTable")
 );
-//ll
 export default function Appointments() {
+  useMetaArgs({
+    title: "Appointments - Clinicare",
+    description: "Manage your appointments.",
+    keywords: "Clinicare, appointments, account",
+  });
   const { accessToken } = useAuth();
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;

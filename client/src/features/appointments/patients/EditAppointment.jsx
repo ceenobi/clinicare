@@ -2,6 +2,7 @@ import { updateAppointmentPatients } from "@/api/appointments";
 import ErrorAlert from "@/components/ErrorAlert";
 import FormField from "@/components/FormField";
 import Modal from "@/components/Modal";
+import SelectField from "@/components/SelectField";
 import { useAuth } from "@/store";
 import { formatDate } from "@/utils/constants";
 import { validateBookAppointmentSchema } from "@/utils/dataSchema";
@@ -38,7 +39,7 @@ export default function EditAppointment({ appointment }) {
       setValue("notes", appointment.notes);
     }
   }, [appointment, setValue]);
-  
+
   const mutation = useMutation({
     mutationFn: updateAppointmentPatients,
     onSuccess: (response) => {
@@ -116,27 +117,15 @@ export default function EditAppointment({ appointment }) {
                 />
               </div>
               <div className="md:col-span-6">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Appointment Time</legend>
-                  <select
-                    defaultValue={""}
-                    className="select capitalize w-full"
-                    name="appointmentTime"
-                    {...register("appointmentTime")}
-                  >
-                    <option value="">Appointment Time</option>
-                    {appointmentTime?.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  {errors?.appointmentTime?.message && (
-                    <span className="text-xs text-red-500">
-                      {errors?.appointmentTime?.message}
-                    </span>
-                  )}
-                </fieldset>
+                <SelectField
+                  label="Appointment Time"
+                  id="appointmentTime"
+                  register={register}
+                  name="appointmentTime"
+                  placeholder="Time"
+                  data={appointmentTime}
+                  errors={errors}
+                />
               </div>
               <div className="md:col-span-12">
                 <fieldset className="fieldset">

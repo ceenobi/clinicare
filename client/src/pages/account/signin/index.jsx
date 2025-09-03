@@ -35,7 +35,7 @@ export default function Signin() {
     onSuccess: (response) => {
       toast.success(response?.data?.message || "Login successful");
       setAccessToken(response?.data?.data?.accessToken);
-      if (!user?.isVerified) {
+      if (user && !user?.isVerified) {
         navigate("/verify-account");
       }
     },

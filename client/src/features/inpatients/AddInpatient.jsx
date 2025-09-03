@@ -3,6 +3,7 @@ import { createInpatient } from "@/api/inpatients";
 import ErrorAlert from "@/components/ErrorAlert";
 import FormField from "@/components/FormField";
 import Modal from "@/components/Modal";
+import SelectField from "@/components/SelectField";
 import { useAuth } from "@/store";
 import { formatCurrency } from "@/utils/constants";
 import { validateInpatientSchema } from "@/utils/dataSchema";
@@ -133,50 +134,26 @@ export default function AddInpatient() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="md:grid grid-cols-12 gap-4">
               <div className="md:col-span-6">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Select Patient</legend>
-                  <select
-                    defaultValue={""}
-                    className="select capitalize w-full"
-                    name="patientId"
-                    {...register("patientId")}
-                  >
-                    <option value="">Select patient</option>
-                    {patientsName?.map((option, index) => (
-                      <option key={index} value={option.id}>
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
-                  {errors?.patientId?.message && (
-                    <span className="text-xs text-red-500">
-                      {errors?.patientId?.message}
-                    </span>
-                  )}
-                </fieldset>
+                <SelectField
+                  label="Patient Name"
+                  id="patientId"
+                  register={register}
+                  name="patientId"
+                  placeholder="Patient name"
+                  data={patientsName}
+                  errors={errors}
+                />
               </div>
               <div className="md:col-span-6">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Select Doctor</legend>
-                  <select
-                    defaultValue={""}
-                    className="select capitalize w-full"
-                    name="doctorId"
-                    {...register("doctorId")}
-                  >
-                    <option value="">Select doctor</option>
-                    {doctorsName?.map((option, index) => (
-                      <option key={index} value={option.id}>
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
-                  {errors?.doctorId?.message && (
-                    <span className="text-xs text-red-500">
-                      {errors?.doctorId?.message}
-                    </span>
-                  )}
-                </fieldset>
+                <SelectField
+                  label="Select Doctor"
+                  id="doctorId"
+                  register={register}
+                  name="doctorId"
+                  placeholder="Doctor name"
+                  data={doctorsName}
+                  errors={errors}
+                />
               </div>
               <div className="md:col-span-12">
                 <fieldset className="fieldset">
@@ -202,27 +179,15 @@ export default function AddInpatient() {
                 </fieldset>
               </div>
               <div className="md:col-span-6">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Select Status</legend>
-                  <select
-                    defaultValue={""}
-                    className="select capitalize w-full"
-                    name="status"
-                    {...register("status")}
-                  >
-                    <option value="">Select status</option>
-                    {status?.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  {errors?.status?.message && (
-                    <span className="text-xs text-red-500">
-                      {errors?.status?.message}
-                    </span>
-                  )}
-                </fieldset>
+                <SelectField
+                  label="Status"
+                  id="status"
+                  register={register}
+                  name="status"
+                  placeholder="Status"
+                  data={status}
+                  errors={errors}
+                />
               </div>
               <div className="md:col-span-6">
                 <FormField

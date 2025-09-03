@@ -11,8 +11,14 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { updateUserProfile } from "@/api/auth";
 import { toast } from "sonner";
 import { useAuth } from "@/store";
+import useMetaArgs from "@/hooks/useMeta";
 
 export default function Account() {
+  useMetaArgs({
+    title: "Account - Clinicare",
+    description: "Account settings for your Clinicare account.",
+    keywords: "Clinicare, account, settings",
+  });
   const [error, setError] = useState(null);
   const {
     register,

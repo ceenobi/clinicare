@@ -11,9 +11,15 @@ import { lazy, Suspense } from "react";
 import ErrorAlert from "@/components/ErrorAlert";
 import { SkeletonTable } from "@/components/LazyLoader";
 import Paginate from "@/components/paginate";
+import useMetaArgs from "@/hooks/useMeta";
 const Table = lazy(() => import("@/features/rooms/Table"));
-//ll
+
 export default function Rooms() {
+  useMetaArgs({
+    title: "Rooms - Clinicare",
+    description: "Manage your rooms.",
+    keywords: "Clinicare, rooms, account",
+  });
   const { accessToken } = useAuth();
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;

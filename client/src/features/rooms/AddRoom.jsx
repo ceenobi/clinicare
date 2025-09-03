@@ -8,6 +8,7 @@ import { validateRoomSchema } from "@/utils/dataSchema";
 import Modal from "@/components/Modal";
 import FormField from "@/components/FormField";
 import ErrorAlert from "@/components/ErrorAlert";
+import SelectField from "@/components/SelectField";
 
 export default function AddRoom() {
   const [isOpen, setIsOpen] = useState(false);
@@ -103,28 +104,15 @@ export default function AddRoom() {
                 />
               </div>
               <div className="md:col-span-6">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Room Type</legend>
-                  <select
-                    defaultValue={""}
-                    className="select capitalize w-full"
-                    name="roomType"
-                    {...register("roomType")}
-                    disabled={mutation.isPending}
-                  >
-                    <option value="">Room Type</option>
-                    {roomType?.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  {errors?.roomType?.message && (
-                    <span className="text-xs text-red-500">
-                      {errors?.roomType?.message}
-                    </span>
-                  )}
-                </fieldset>
+                <SelectField
+                  label="Room Type"
+                  id="roomType"
+                  register={register}
+                  name="roomType"
+                  placeholder="Room Type"
+                  data={roomType}
+                  errors={errors}
+                />
               </div>
               <div className="md:col-span-6">
                 <FormField
@@ -138,28 +126,15 @@ export default function AddRoom() {
                 />
               </div>
               <div className="md:col-span-6">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Room Status</legend>
-                  <select
-                    defaultValue={""}
-                    className="select capitalize w-full"
-                    name="roomStatus"
-                    {...register("roomStatus")}
-                    disabled={mutation.isPending}
-                  >
-                    <option value="">Room Status</option>
-                    {roomStatus?.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  {errors?.roomStatus?.message && (
-                    <span className="text-xs text-red-500">
-                      {errors?.roomStatus?.message}
-                    </span>
-                  )}
-                </fieldset>
+                <SelectField
+                  label="Room Status"
+                  id="roomStatus"
+                  register={register}
+                  name="roomStatus"
+                  placeholder="Room Status"
+                  data={roomStatus}
+                  errors={errors}
+                />
               </div>
               <div className="md:col-span-12">
                 <FormField

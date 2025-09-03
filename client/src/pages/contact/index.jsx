@@ -7,13 +7,13 @@ export default function ContactUs() {
     keywords: "Clinicare, contact us, inquiries",
   });
   return (
-    <div className="container mx-auto py-5 px-4 min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center text-center">
+    <div className="container mx-auto py-5 px-4 min-h-dvh flex flex-col items-center justify-center text-center">
       <div className="grid grid-cols-12 gap-4 lg:gap-8">
-        <div className="col-span-12 bg-white p-4 ">
+        <div className="col-span-12 p-4">
           <img
             src="/Contact-us.svg"
             alt="contact-us"
-            className="h-[70%] w-full mb-4"
+            className="h-[300px] w-full mb-4"
           />
           <h1 className="text-2xl md:text-3xl font-bold mb-2">Contact Us</h1>
           <div className="flex flex-col gap-1">

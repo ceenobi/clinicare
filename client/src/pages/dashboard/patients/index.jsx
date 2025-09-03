@@ -10,9 +10,15 @@ import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router";
 import { lazy, Suspense } from "react";
 import Paginate from "@/components/paginate";
+import useMetaArgs from "@/hooks/useMeta";
 const Table = lazy(() => import("@/features/patients/Table"));
 
 export default function Patients() {
+  useMetaArgs({
+    title: "Patients - Clinicare",
+    description: "Manage your patients.",
+    keywords: "Clinicare, patients, account",
+  });
   const { accessToken } = useAuth();
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;

@@ -11,11 +11,17 @@ import { lazy, Suspense } from "react";
 import { useSearchParams } from "react-router";
 import ErrorAlert from "@/components/ErrorAlert";
 import Paginate from "@/components/paginate";
+import useMetaArgs from "@/hooks/useMeta";
 const Table = lazy(() =>
   import("@/features/appointments/patients/PatientsTable")
 );
 //ll
 export default function PatientsAppointment() {
+  useMetaArgs({
+    title: "Appointments - Clinicare",
+    description: "Manage your appointments.",
+    keywords: "Clinicare, appointments, account",
+  });
   const { accessToken } = useAuth();
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;

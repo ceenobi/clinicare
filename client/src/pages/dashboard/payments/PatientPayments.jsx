@@ -10,9 +10,15 @@ import Filter from "@/features/payments/Filter";
 import Search from "@/components/Search";
 import { SkeletonTable } from "@/components/LazyLoader";
 import Paginate from "@/components/paginate";
+import useMetaArgs from "@/hooks/useMeta";
 const Table = lazy(() => import("@/features/payments/PaymentsTable"));
-//ll
+
 export default function PatientPayments() {
+  useMetaArgs({
+    title: "Payments - Clinicare",
+    description: "Manage your payments.",
+    keywords: "Clinicare, payments, account",
+  });
   const { accessToken, user } = useAuth();
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;

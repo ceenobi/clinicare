@@ -418,3 +418,28 @@ export const inpatientStatusColors = {
   discharged: "bg-red-200 text-red-700",
   transferred: "bg-yellow-200 text-yellow-700",
 };
+
+{
+  /* <fieldset className="fieldset">
+                  <legend className="fieldset-legend">Blood Group</legend>
+                  <select
+                    defaultValue={""}
+                    className="select capitalize w-full"
+                    name="bloodGroup"
+                    {...register("bloodGroup")}
+                    disabled={isSubmitting}
+                  >
+                    <option value="">Select BloodGroup</option>
+                    {bloodGroupOptions?.map((option, index) => (
+                      <option key={index} value={option.id}>
+                        {option.name}
+                      </option>
+                    ))}
+                  </select>
+                  {errors?.bloodGroup?.message && (
+                    <span className="text-xs text-red-500">
+                      {errors?.bloodGroup?.message}
+                    </span>
+                  )}
+                </fieldset> */
+}

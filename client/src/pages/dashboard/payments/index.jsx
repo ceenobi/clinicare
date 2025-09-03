@@ -11,9 +11,15 @@ import { useQuery } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
 import { useSearchParams } from "react-router";
 import Paginate from "@/components/paginate";
+import useMetaArgs from "@/hooks/useMeta";
 const Table = lazy(() => import("@/features/payments/PaymentsTable"));
-//ll
+
 export default function Payments() {
+  useMetaArgs({
+    title: "Payments - Clinicare",
+    description: "Manage your payments.",
+    keywords: "Clinicare, payments, account",
+  });
   const { accessToken, user } = useAuth();
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
@@ -40,7 +46,7 @@ export default function Payments() {
     currentPage: data?.data?.data?.meta?.currentPage || 1,
   });
   const payments = data?.data?.data?.payments || [];
-  
+
   return (
     <PageWrapper>
       <div className="flex justify-between items-center">

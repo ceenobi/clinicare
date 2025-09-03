@@ -11,6 +11,7 @@ import { registerPatient } from "@/api/patients";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import ErrorAlert from "@/components/ErrorAlert";
+import SelectField from "@/components/SelectField";
 
 export default function PatientsOnboard() {
   useMetaArgs({
@@ -29,7 +30,7 @@ export default function PatientsOnboard() {
     handleSubmit,
     setValue,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(validatePatientSchema),
   });
@@ -73,7 +74,7 @@ export default function PatientsOnboard() {
     []
   );
   const formValues = watch();
-  
+
   useEffect(() => {
     const currentRequiredFields =
       currentStep === 1 ? requiredFields1 : requiredFields2;
@@ -110,7 +111,7 @@ export default function PatientsOnboard() {
   };
 
   const onSubmit = async (formData) => {
- mutation.mutate({ formData, accessToken });
+    mutation.mutate({ formData, accessToken });
   };
 
   return (
@@ -199,52 +200,26 @@ export default function PatientsOnboard() {
                 />
               </div>
               <div className="md:col-span-6">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Gender</legend>
-                  <select
-                    defaultValue={""}
-                    className="select capitalize w-full"
-                    name="gender"
-                    {...register("gender")}
-                    disabled={isSubmitting}
-                  >
-                    <option value="">Select Gender</option>
-                    {gender?.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  {errors?.gender?.message && (
-                    <span className="text-xs text-red-500">
-                      {errors?.gender?.message}
-                    </span>
-                  )}
-                </fieldset>
+                <SelectField
+                  label="Gender"
+                  id="gender"
+                  register={register}
+                  name="gender"
+                  placeholder="Select Gender"
+                  data={gender}
+                  errors={errors}
+                />
               </div>
               <div className="md:col-span-6">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Blood Group</legend>
-                  <select
-                    defaultValue={""}
-                    className="select capitalize w-full"
-                    name="bloodGroup"
-                    {...register("bloodGroup")}
-                    disabled={isSubmitting}
-                  >
-                    <option value="">Select BloodGroup</option>
-                    {bloodGroupOptions?.map((option, index) => (
-                      <option key={index} value={option.id}>
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
-                  {errors?.bloodGroup?.message && (
-                    <span className="text-xs text-red-500">
-                      {errors?.bloodGroup?.message}
-                    </span>
-                  )}
-                </fieldset>
+                <SelectField
+                  label="Blood group"
+                  id="bloodGroup"
+                  register={register}
+                  name="bloodGroup"
+                  placeholder="Select Blood group"
+                  data={bloodGroupOptions}
+                  errors={errors}
+                />
               </div>
             </>
           )}

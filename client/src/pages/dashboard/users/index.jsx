@@ -11,10 +11,15 @@ import { useAuth } from "@/store";
 import { useQuery } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
 import Paginate from "@/components/paginate";
+import useMetaArgs from "@/hooks/useMeta";
 const UsersCard = lazy(() => import("@/features/users/UsersCard"));
-//lljjjkdjd
 
 export default function Users() {
+  useMetaArgs({
+    title: "User",
+    description: "User",
+    keywords: "Clinicare, user, account",
+  });
   const { accessToken } = useAuth();
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
@@ -33,7 +38,7 @@ export default function Users() {
   });
 
   const users = data?.data?.data?.users || [];
-//lll
+  //lll
   return (
     <PageWrapper>
       <div className="md:flex justify-between items-center">

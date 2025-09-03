@@ -4,6 +4,7 @@ import {
 } from "@/api/appointments";
 import ErrorAlert from "@/components/ErrorAlert";
 import Modal from "@/components/Modal";
+import SelectField from "@/components/SelectField";
 import { useAuth } from "@/store";
 import { validateConfirmAppointmentSchema } from "@/utils/dataSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -129,52 +130,26 @@ export default function EditPatientsAppointment({ appointment }) {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="md:grid grid-cols-12 gap-4">
                   <div className="md:col-span-12">
-                    <fieldset className="fieldset">
-                      <legend className="fieldset-legend">Select Doctor</legend>
-                      <select
-                        defaultValue={""}
-                        className="select capitalize w-full"
-                        name="doctorId"
-                        {...register("doctorId")}
-                      >
-                        <option value="">Select doctor</option>
-                        {doctorsName?.map((option, index) => (
-                          <option key={index} value={option.id}>
-                            {option.name}
-                          </option>
-                        ))}
-                      </select>
-                      {errors?.status?.message && (
-                        <span className="text-xs text-red-500">
-                          {errors?.status?.message}
-                        </span>
-                      )}
-                    </fieldset>
+                    <SelectField
+                      label="Doctor Name"
+                      id="doctorId"
+                      register={register}
+                      name="doctorId"
+                      placeholder="Doctor name"
+                      data={doctorsName}
+                      errors={errors}
+                    />
                   </div>
                   <div className="md:col-span-12">
-                    <fieldset className="fieldset">
-                      <legend className="fieldset-legend">
-                        Confirm Status
-                      </legend>
-                      <select
-                        defaultValue={""}
-                        className="select capitalize w-full"
-                        name="status"
-                        {...register("status")}
-                      >
-                        <option value="">Select status</option>
-                        {status?.map((option, index) => (
-                          <option key={index} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                      {errors?.status?.message && (
-                        <span className="text-xs text-red-500">
-                          {errors?.status?.message}
-                        </span>
-                      )}
-                    </fieldset>
+                    <SelectField
+                      label="Confirm Status"
+                      id="status"
+                      register={register}
+                      name="status"
+                      placeholder="Status"
+                      data={status}
+                      errors={errors}
+                    />
                   </div>
                   <div className="md:col-span-12">
                     <fieldset className="fieldset">

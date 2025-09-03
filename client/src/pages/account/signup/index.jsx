@@ -37,7 +37,7 @@ export default function Signup() {
       toast.success(response?.data?.message || "Registration successful");
       //save accessToken
       setAccessToken(response?.data?.data?.accessToken);
-      if (!user?.isVerified) {
+      if (user && !user?.isVerified) {
         navigate("/verify-account");
       }
     },
