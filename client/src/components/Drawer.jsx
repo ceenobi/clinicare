@@ -2,7 +2,7 @@ import { RiCloseLine, RiMenuLine } from "@remixicon/react";
 import { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router";
 import { dashBoardLinks, roleBasedPathPermissions } from "../utils/constants";
-import Logout from "./logout";
+import Logout from "./Logout";
 
 export default function Drawer({ user }) {
   const [open, setOpen] = useState(false);
