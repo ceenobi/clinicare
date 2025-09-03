@@ -1,20 +1,20 @@
-export default function ProgressCard({ appointmentSummary }) {
-  const total = appointmentSummary?.total || 0;
-  const counts = appointmentSummary?.counts || {
-    scheduled: 0,
+export default function ProgressCardPayment({ paymentSummary }) {
+  const total = paymentSummary?.total || 0;
+  const counts = paymentSummary?.counts || {
+    pending: 0,
     confirmed: 0,
     cancelled: 0,
   };
-  const percentages = appointmentSummary?.percentages || {
-    scheduled: 0,
+  const percentages = paymentSummary?.percentages || {
+    pending: 0,
     confirmed: 0,
     cancelled: 0,
   };
 
   const items = [
     {
-      key: "scheduled",
-      label: "Scheduled",
+      key: "pending",
+      label: "Pending",
       color: "bg-blue-500",
       ring: "border-blue-500",
     },

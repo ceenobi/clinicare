@@ -2,7 +2,8 @@ import { getAllStats, getPatientStats } from "@/api/dashboard";
 import ErrorAlert from "@/components/ErrorAlert";
 import { LazyLoader } from "@/components/LazyLoader";
 import PageWrapper from "@/components/PageWrapper";
-import ProgressCard from "@/features/dashboard/ProgressCard";
+import ProgressCardAppointment from "@/features/dashboard/ProgressCardAppointment";
+import ProgressCardPayment from "@/features/dashboard/ProgressCardPayments";
 import RecentAppointments from "@/features/dashboard/RecentAppointments";
 import RecentPayments from "@/features/dashboard/RecentPayments";
 import StatsCard from "@/features/dashboard/StatsCard";
@@ -77,17 +78,40 @@ export default function Dashboard() {
                 appointments={stats?.recentAppointments}
                 user={user}
               />
-              <RecentPayments payments={stats?.recentPayments} user={user} />
             </div>
             <div className="col-span-12 md:col-span-3">
-              <ProgressCard
+              <ProgressCardAppointment
                 appointmentSummary={stats?.appointmentSummary}
                 user={user}
               />
+            </div>
+          </div>
+          <div className="grid grid-cols-12 gap-4">
+            <div className="col-span-12 md:col-span-9">
+              <RecentPayments payments={stats?.recentPayments} user={user} />
+            </div>
+            <div className="col-span-12 md:col-span-3">
+              <ProgressCardAppointment
+                appointmentSummary={stats?.appointmentSummary}
+                user={user}
+              />
+              {/* <RecentPayments payments={stats?.recentPayments} user={user} /> */}
             </div>
           </div>
         </div>
       </div>
     </PageWrapper>
   );
+}
+
+{
+  /* <ProgressCardAppointment
+appointmentSummary={stats?.appointmentSummary}
+user={user}
+/>
+
+<ProgressCardPayment
+paymentSummary={stats?.paymentSummary}
+user={user}
+/> */
 }

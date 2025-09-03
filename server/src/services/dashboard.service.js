@@ -30,15 +30,40 @@ const buildAppointmentSummary = (appointments = []) => {
   };
 };
 
+const buildPaymentSummary = (payments = []) => {
+  const total = payments.length || 0;
+  const counts = payments.reduce(
+    (acc, { status }) => {
+      if (status === "pending") acc.pending += 1;
+      else if (status === "confirmed") acc.confirmed += 1;
+      else if (status === "cancelled") acc.cancelled += 1;
+      return acc;
+    },
+    { pending: 0, confirmed: 0, cancelled: 0 }
+  );
+  const pct = (n) => (total ? Math.round((n / total) * 100) : 0);
+  return {
+    counts,
+    percentages: {
+      pending: pct(counts.pending),
+      confirmed: pct(counts.confirmed),
+      cancelled: pct(counts.cancelled),
+    },
+    total,
+  };
+};
+
 const dashboardService = {
   getPatientStats: async (userId, next) => {
-    const [appointments, payments, pendingPayments] = await Promise.all([
-      Appointment.find({ patientId: userId.toString() })
-        .populate("doctorId", "fullname")
-        .populate("patientId", "fullname email phone"),
-      Payment.find({ patientId: userId.toString() }).limit(5),
-      Payment.find({ status: "pending" }).limit(5),
-    ]);
+    const [appointments, payments, pendingPayments, allPayments] =
+      await Promise.all([
+        Appointment.find({ patientId: userId.toString() })
+          .populate("doctorId", "fullname")
+          .populate("patientId", "fullname email phone"),
+        Payment.find({ patientId: userId.toString() }).limit(5),
+        Payment.find({ status: "pending" }).limit(5),
+        Payment.find({ patientId: userId.toString() }),
+      ]);
     const totalPayments = payments.reduce((acc, curr) => acc + curr.amount, 0);
     // Get appointments within the past 7 days
     const sevenDaysAgo = new Date();
@@ -53,6 +78,7 @@ const dashboardService = {
       return paymentDate >= sevenDaysAgo;
     });
     const appointmentSummary = buildAppointmentSummary(appointments);
+    const paymentSummary = buildAppointmentSummary(allPayments);
 
     return {
       appointments,
@@ -65,16 +91,19 @@ const dashboardService = {
       pendingPayments,
       recentPayments,
       appointmentSummary,
+      paymentSummary,
     };
   },
   getAllStats: async (next) => {
-    const [appointments, payments, pendingPayments] = await Promise.all([
-      Appointment.find()
-        .populate("doctorId", "fullname")
-        .populate("patientId", "fullname email phone"),
-      Payment.find({ status: "confirmed" }),
-      Payment.find({ status: "pending" }).limit(5),
-    ]);
+    const [appointments, payments, pendingPayments, allPayments] =
+      await Promise.all([
+        Appointment.find()
+          .populate("doctorId", "fullname")
+          .populate("patientId", "fullname email phone"),
+        Payment.find({ status: "confirmed" }),
+        Payment.find({ status: "pending" }).limit(5),
+        Payment.find(),
+      ]);
     const totalPayments = payments.reduce((acc, curr) => acc + curr.amount, 0);
     // Get appointments within the past 7 days
     const sevenDaysAgo = new Date();
@@ -91,6 +120,7 @@ const dashboardService = {
     });
 
     const appointmentSummary = buildAppointmentSummary(appointments);
+    const paymentSummary = buildAppointmentSummary(allPayments);
 
     return {
       appointments,
@@ -103,6 +133,7 @@ const dashboardService = {
       pendingPayments,
       recentPayments,
       appointmentSummary,
+      paymentSummary,
     };
   },
 };
