@@ -91,27 +91,14 @@ export default function Dashboard() {
               <RecentPayments payments={stats?.recentPayments} user={user} />
             </div>
             <div className="col-span-12 md:col-span-3">
-              <ProgressCardAppointment
-                appointmentSummary={stats?.appointmentSummary}
+              <ProgressCardPayment
+                paymentSummary={stats?.paymentSummary}
                 user={user}
               />
-              {/* <RecentPayments payments={stats?.recentPayments} user={user} /> */}
             </div>
           </div>
         </div>
       </div>
     </PageWrapper>
   );
-}
-
-{
-  /* <ProgressCardAppointment
-appointmentSummary={stats?.appointmentSummary}
-user={user}
-/>
-
-<ProgressCardPayment
-paymentSummary={stats?.paymentSummary}
-user={user}
-/> */
 }
