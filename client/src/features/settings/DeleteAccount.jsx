@@ -1,6 +1,6 @@
 import { deleteAccount } from "@/api/auth";
 import ErrorAlert from "@/components/ErrorAlert";
-import Modal from "@/components/modal";
+import Modal from "@/components/Modal";
 import { useAuth } from "@/store";
 import { RiDeleteBinLine } from "@remixicon/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
