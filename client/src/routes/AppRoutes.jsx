@@ -27,7 +27,7 @@ const Users = lazy(() => import("@/pages/dashboard/users"));
 const Doctors = lazy(() => import("@/pages/dashboard/doctors"));
 const Rooms = lazy(() => import("@/pages/dashboard/rooms"));
 const PatientsAppointment = lazy(() =>
-  import("@/pages/dashboard/Appointments/Patients")
+  import("@/pages/dashboard/appointments/PatientsAppointment")
 );
 const Appointments = lazy(() => import("@/pages/dashboard/appointments"));
 const Payments = lazy(() => import("@/pages/dashboard/payments"));
