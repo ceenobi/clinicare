@@ -36,9 +36,8 @@ export default function Users() {
     hasMore: data?.data?.data?.meta?.hasMore || false,
     currentPage: data?.data?.data?.meta?.currentPage || 1,
   });
-
   const users = data?.data?.data?.users || [];
-  //lll
+  
   return (
     <PageWrapper>
       <div className="md:flex justify-between items-center">

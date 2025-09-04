@@ -30,7 +30,7 @@ export default function ErrorBoundary() {
     if (msgs.includes(details)) {
       window.location.reload();
     } else {
-      navigate(0);
+      navigate("/");
     }
   };
 
