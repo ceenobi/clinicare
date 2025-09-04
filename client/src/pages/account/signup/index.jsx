@@ -24,7 +24,7 @@ export default function Signup() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(validateSignUpSchema),
   });
@@ -108,11 +108,9 @@ export default function Signup() {
         <button
           type="submit"
           className="my-4 btn bg-blue-500 hover:bg-blue-600 text-white w-full md:w-[350px]"
-          disabled={isSubmitting || mutation.isPending}
+          disabled={mutation.isPending}
         >
-          {isSubmitting || mutation.isPending
-            ? "Creating Account..."
-            : "Create Account"}
+          {mutation.isPending ? "Creating Account..." : "Create Account"}
         </button>
         <p className="text-sm text-gray-600">
           Already have an account?{" "}

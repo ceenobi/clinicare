@@ -26,7 +26,7 @@ export default function Password() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(updatePasswordSchema),
   });
@@ -123,9 +123,9 @@ export default function Password() {
           <button
             type="submit"
             className="bg-blue-500 text-white font-bold border border-gray-300 p-2 rounded-md cursor-pointer w-[140px]"
-            disabled={isSubmitting || mutation.isPending}
+            disabled={mutation.isPending}
           >
-            {isSubmitting || mutation.isPending ? "Saving..." : "Save"}
+            {mutation.isPending ? "Saving..." : "Save"}
           </button>
         </div>
       </form>

@@ -105,7 +105,7 @@ export default function UploadImage() {
                 </button>
               </label>
             )}
-            <p className="font-bol">JPG, PNG, GIF (max 5MB)</p>
+            <p className="font-bold text-sm">JPG, PNG, GIF (max 5MB)</p>
           </div>
           <input
             type="file"

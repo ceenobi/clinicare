@@ -24,7 +24,7 @@ export default function Signin() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(validateSignInSchema),
   });
@@ -98,9 +98,9 @@ export default function Signin() {
         <button
           type="submit"
           className="my-4 btn bg-blue-500 hover:bg-blue-600 text-white w-full md:w-[350px]"
-          disabled={isSubmitting || mutation.isPending}
+          disabled={mutation.isPending}
         >
-          {isSubmitting || mutation.isPending ? "Signing In..." : "Sign In"}
+          {mutation.isPending ? "Signing In..." : "Sign In"}
         </button>
         <p className="text-gray-600 text-sm">
           Don't have an account?{" "}

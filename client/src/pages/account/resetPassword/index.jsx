@@ -23,7 +23,7 @@ export default function ResetPassword() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(validateResetPasswordSchema),
   });
@@ -94,11 +94,9 @@ export default function ResetPassword() {
         <button
           type="submit"
           className="mt-2 btn bg-blue-500 hover:bg-blue-600 text-white w-full md:w-[350px]"
-          disabled={isSubmitting || mutation.isPending}
+          disabled={mutation.isPending}
         >
-          {isSubmitting || mutation.isPending
-            ? "Resetting..."
-            : "Reset Password"}
+          {mutation.isPending ? "Resetting..." : "Reset Password"}
         </button>
       </form>
     </div>

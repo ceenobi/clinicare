@@ -44,7 +44,7 @@ export default function Sidebar({ user }) {
             </p>
             <div className="flex flex-col">
               {item.children
-                .filter((subPaths) => {
+                ?.filter((subPaths) => {
                   if (
                     roleBasedPathPermissions[userRole] &&
                     isAuthorized.includes(subPaths.href)

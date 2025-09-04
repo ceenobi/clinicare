@@ -20,7 +20,7 @@ export default function ForgotPassword() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors},
   } = useForm({
     resolver: zodResolver(forgotPasswordSchema),
   });
@@ -70,9 +70,9 @@ export default function ForgotPassword() {
         <button
           type="submit"
           className="btn bg-blue-500 hover:bg-blue-600 text-white w-full md:w-[350px]"
-          disabled={isSubmitting || mutation.isPending}
+          disabled={mutation.isPending}
         >
-          {isSubmitting || mutation.isPending ? "Sending..." : "Send Link"}
+          {mutation.isPending ? "Sending..." : "Send Link"}
         </button>
       </form>
     </div>

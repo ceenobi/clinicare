@@ -28,7 +28,7 @@ export default function Drawer({ user }) {
       navigate("/dashboard");
     }
   }, [isAuthorized, navigate, path, userRole]);
-  
+
   return (
     <>
       <button onClick={toggleDrawer}>
@@ -89,10 +89,10 @@ export default function Drawer({ user }) {
                   </p>
                   <div className="flex flex-col">
                     {item.children
-                      .filter((child) => {
+                      ?.filter((child) => {
                         if (
                           roleBasedPathPermissions[userRole] &&
-                          isAuthorized.includes(child.href)
+                          isAuthorized?.includes(child.href)
                         ) {
                           return true;
                         }

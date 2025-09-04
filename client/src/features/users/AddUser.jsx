@@ -24,7 +24,7 @@ export default function AddUser() {
     handleSubmit,
     reset,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(validateSignUpSchema),
     defaultValues: {
@@ -50,7 +50,7 @@ export default function AddUser() {
   });
 
   const roles = ["admin", "staff", "doctor", "nurse", "patient"];
-  
+
   const fieldWatch = watch("role");
   useEffect(() => {
     if (fieldWatch === "doctor") {
@@ -162,7 +162,7 @@ export default function AddUser() {
                     className="select capitalize w-full"
                     name="role"
                     {...register("role")}
-                    disabled={isSubmitting}
+                    disabled={mutation.isPending}
                   >
                     <option value="">Select Role</option>
                     {roles
@@ -192,7 +192,7 @@ export default function AddUser() {
                         className="select capitalize w-full"
                         name="specialization"
                         {...register("specialization")}
-                        disabled={isSubmitting}
+                        disabled={mutation.isPending}
                       >
                         <option value="">Select Specialization</option>
                         {specialization.map((option, index) => (
@@ -216,7 +216,7 @@ export default function AddUser() {
                         className="select capitalize w-full"
                         name="availability"
                         {...register("availability")}
-                        disabled={isSubmitting}
+                        disabled={mutation.isPending}
                       >
                         <option value="">Select Availability</option>
                         {availability.map((option, index) => (
