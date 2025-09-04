@@ -24,11 +24,7 @@ export default function ErrorBoundary() {
   const msgs = useMemo(() => ["jwt expired", "jwt malformed"], []);
 
   const redirect = () => {
-    if (msgs.includes(details)) {
-      window.location.reload();
-    } else {
-      window.location.href("/");
-    }
+    window.location.reload();
   };
 
   return (

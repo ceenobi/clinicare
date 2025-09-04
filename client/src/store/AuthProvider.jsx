@@ -17,6 +17,7 @@ export default function AuthProvider({ children }) {
       setAccessToken(null);
     },
     enabled: !accessToken,
+    retry: false,
   });
 
   //set newaccessToken data
