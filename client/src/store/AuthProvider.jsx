@@ -28,7 +28,7 @@ export default function AuthProvider({ children }) {
     }
   }, [dataToken?.data?.data?.accessToken, dataToken?.status]);
 
-  //fetch auth user
+  //fetch auth user data
   const { isPending, data } = useQuery({
     queryKey: ["auth_user", accessToken],
     queryFn: () => getAuthenticatedUser(accessToken),
