@@ -1,7 +1,9 @@
+import { useAuth } from "@/store";
 import { useMemo } from "react";
 import { isRouteErrorResponse, useRouteError, useNavigate } from "react-router";
 
 export default function ErrorBoundary() {
+  const { setAccessToken } = useAuth();
   const error = useRouteError();
   const navigate = useNavigate();
   // const location = useLocation();
@@ -29,6 +31,8 @@ export default function ErrorBoundary() {
   const redirect = () => {
     if (msgs.includes(details)) {
       window.location.reload();
+    } else if (details === "An unexpected error occurred.") {
+      setAccessToken(null);
     } else {
       navigate("/");
     }
