@@ -9,10 +9,10 @@ export default function RootLayout() {
         <div className="container mx-auto py-5 px-4 flex justify-between items-center">
           <Logo />
           <div className="flex gap-4 items-center">
-            <a href="#features" className="font-medium">
+            <a href="#features" className="font-medium hidden md:block">
               Features
             </a>
-            <a href="#howitworks" className="font-medium">
+            <a href="#howitworks" className="font-medium hidden md:block">
               How it works
             </a>
             {["contact"].map((item) => (
@@ -29,7 +29,7 @@ export default function RootLayout() {
               </NavLink>
             ))}
           </div>
-          <NavLink to="/account/signup">
+          <NavLink to="/account/signup" className="hidden md:block">
             <button className="btn bg-blue-500 hover:bg-blue-600 text-white">
               Get Started
             </button>
