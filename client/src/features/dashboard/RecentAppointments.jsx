@@ -36,7 +36,11 @@ export default function RecentAppointments({ appointments, user }) {
         <p className="font-semibold">Recent appointments</p>
         <Link
           className="font-semibold text-blue-500 hover:text-blue-600 underline"
-          to="/dashboard/patient-appointments"
+          to={
+            user?.role === "patient"
+              ? "/dashboard/patient-appointments"
+              : "/dashboard/appointments"
+          }
         >
           View all
         </Link>
